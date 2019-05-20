@@ -1,5 +1,6 @@
 package com.example.proyectofb;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,10 +25,6 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
     }
 
-
-
-
-
     public void OnClickButtonSignUp(View view){
 
         EditText editTextEmail = findViewById(R.id.editTextLoginEmail);
@@ -44,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
 
         EditText editTextEmail = findViewById(R.id.editTextLoginEmail);
         EditText editTextPassword = findViewById(R.id.editTextLoginPassword);
-
         String email = editTextEmail.getText().toString();
         String password  = editTextPassword.getText().toString();
+        //FirebaseSingIn(email,password);
 
-        FirebaseSingIn(email,password);
+        Intent intent = new Intent(getApplicationContext(), TabHomeActivity.class);
+        startActivity(intent);
     }
 
     public void OnClickResetPassword(View view){
@@ -102,6 +100,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if(task.isSuccessful()){
                     Toast.makeText(getApplicationContext(), "Login Exitoso.",Toast.LENGTH_LONG).show();
+                    Intent intent  = new Intent(getApplicationContext(),TabHomeActivity.class);
+                    startActivity(intent);
 
                 }
                 else{

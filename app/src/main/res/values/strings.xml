@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">proyectoFB</string>
+    <string name="title_activity_tabbed_home">TabbedHomeActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+    <string name="title_activity_tab_home">TabHomeActivity</string>
+    <string name="tabTimeLineText">TimeLine</string>
+    <string name="tabProfileText">Perfil</string>
+    <string name="tabFriendsLineText">Amigos</string>
+    <string name="tabNotificationsLineText">Notificaciones</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
