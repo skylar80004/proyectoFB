@@ -12,16 +12,247 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <ImageView
+            android:id="@+id/imageViewProfilePhoto"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="44dp"
+            android:src="@color/colorPrimary"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/textViewProfileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="328dp"
             android:layout_marginBottom="8dp"
-            android:text="@string/tabProfileText"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Jose Villalobos"
+            app:layout_constraintBottom_toTopOf="@+id/imageViewProfilePhoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="142dp" />
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/textViewProfileBirthDateTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Fecha de Nacimiento:"
+            app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileName" />
+
+        <TextView
+            android:id="@+id/textViewProfileBirthDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:text="01/01/2019"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileBirthDateTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileName" />
+
+        <TextView
+            android:id="@+id/textViewProfileGenderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Género:"
+            app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDateTitle" />
+
+        <TextView
+            android:id="@+id/textViewProfileGender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Hombre"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileGenderTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDateTitle" />
+
+        <TextView
+            android:id="@+id/textViewProfilePhoneTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Teléfono:"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileGender"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDate" />
+
+        <TextView
+            android:id="@+id/textViewProfilePhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="86221144"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfilePhoneTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDate" />
+
+        <TextView
+            android:id="@+id/textViewProfileEmailTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Email:"
+            app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileGenderTitle" />
+
+        <TextView
+            android:id="@+id/textViewProfileEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="email@email.com"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileEmailTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileGender" />
+
+        <TextView
+            android:id="@+id/textViewProgileCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Ciudad:"
+            app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileEmailTitle" />
+
+        <TextView
+            android:id="@+id/textViewProfileCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="Cartago"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.011"
+            app:layout_constraintStart_toEndOf="@+id/textViewProgileCity"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileEmail" />
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileEducation"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewProfilePhoto">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Stanford MIT USA colombia" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="UCR" />
+
+                <TextView
+                    android:id="@+id/textViewProfileEduExample"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="1"
+                    android:text="Instituto Tecnologico de Costa Rica" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/textViewProfileEducation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:text="Educación:"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageViewProfilePhoto" />
+
+        <Button
+            android:id="@+id/buttonProfilePhotos"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Fotos"
+            android:textColor="@color/colorText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileEducation" />
+
+        <Button
+            android:id="@+id/buttonProfileSettings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Configurar Perfil"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+        <Button
+            android:id="@+id/buttonProfileFriends"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
+            android:text="Amigos"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toStartOf="@+id/buttonProfileSettings"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/buttonProfilePhotos"
+            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+        <ScrollView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buttonProfileFriends">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" />
+        </ScrollView>
     </android.support.constraint.ConstraintLayout>
 
 </FrameLayout>

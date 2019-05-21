@@ -1,5 +1,6 @@
 package com.example.proyectofb;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -34,5 +35,11 @@ public class TabHomeActivity extends AppCompatActivity {
         });
     }
 
-  
+    public void OnClickButtonFriends(View view){
+
+        Intent intent = new Intent(getApplicationContext(), FriendsListActivity.class);
+        startActivity(intent);
+    }
+
+
 }
