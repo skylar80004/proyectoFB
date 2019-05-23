@@ -12,6 +12,7 @@ import com.example.proyectofb.FriendFragment;
 import com.example.proyectofb.NotifyFragment;
 import com.example.proyectofb.ProfileFragment;
 import com.example.proyectofb.R;
+import com.example.proyectofb.SearchFragment;
 import com.example.proyectofb.TimeLiFragment;
 
 /**
@@ -21,7 +22,7 @@ import com.example.proyectofb.TimeLiFragment;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tabTimeLineText, R.string.tabNotificationsLineText, R.string.tabFriendsLineText, R.string.tabProfileText};
+    private static final int[] TAB_TITLES = new int[]{R.string.tabTimeLineText, R.string.tabNotificationsLineText, R.string.tabSearchLineText,R.string.tabFriendsLineText, R.string.tabProfileText};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -35,12 +36,17 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         Fragment frag = ProfileFragment.newInstance("hola", "mundo");
         switch (position){
-            case 3:
-                frag = ProfileFragment.newInstance("hola", "mundo");
+
+            case 4:
+                frag  = ProfileFragment.newInstance("hola", "Hola");
                 break;
-            case 2:
+            case 3:
                 frag = FriendFragment.newInstance("friend","friend");
                 break;
+            case 2:
+                frag = SearchFragment.newInstance("search","search");
+                break;
+
             case 1:
                 frag = NotifyFragment.newInstance("noti","noti");
                 break;
@@ -66,6 +72,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         // Show 2 total pages.
-        return 4;
+        return this.TAB_TITLES.length;
     }
 }

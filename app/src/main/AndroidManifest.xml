@@ -9,7 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FriendsListActivity"></activity>
+        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".ProfilePhotoActivity" />
+        <activity android:name=".ProfileSettingsActivity" />
+        <activity android:name=".FriendsListActivity" />
         <activity
             android:name=".TabHomeActivity"
             android:label="@string/title_activity_tab_home"

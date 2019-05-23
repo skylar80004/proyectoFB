@@ -123,7 +123,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textViewProfileGender" />
 
         <TextView
-            android:id="@+id/textViewProgileCity"
+            android:id="@+id/textViewProfileCityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -142,7 +142,7 @@
             android:text="Cartago"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.011"
-            app:layout_constraintStart_toEndOf="@+id/textViewProgileCity"
+            app:layout_constraintStart_toEndOf="@+id/textViewProfileCityTitle"
             app:layout_constraintTop_toBottomOf="@+id/textViewProfileEmail" />
 
         <HorizontalScrollView
