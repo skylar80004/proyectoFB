@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -89,6 +90,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         buttonFriends.setOnClickListener(this);
         Button buttonProfileSettings = view.findViewById(R.id.buttonProfileSettings);
         buttonProfileSettings.setOnClickListener(this);
+        ImageView imageViewProfilePhoto = view.findViewById(R.id.imageViewProfilePhoto);
+        imageViewProfilePhoto.setOnClickListener(this);
         ReadTest(view);
         return view;
     }
@@ -235,6 +238,11 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
 
         switch(v.getId()){
+
+            case R.id.imageViewProfilePhoto:
+                Intent intent = new Intent(getActivity(), ProfilePhotoActivity.class);
+                startActivity(intent);
+                break;
 
             case R.id.buttonProfilePhotos:
                 break;

@@ -3,6 +3,7 @@ package com.example.proyectofb;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -41,12 +45,120 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.editTextProfileEmailSettings);
         editTextEmail.setText( mAuth.getInstance().getCurrentUser().getEmail());
-
+        if(origin.equals("profile")){
+            this.FillUserInfo();
+        }
     }
 
+    public void FillUserInfo(){
 
 
+        // Personal Info
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fireBaseUser = mAuth.getCurrentUser();
+        String id = fireBaseUser.getUid();
+        mDataBase.child("users").child(id).orderByValue().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                String key = dataSnapshot.getKey();
+                if(key.equals("name")) {
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editTextProfileNameSettings);
+                    editTextName.setText(value);
+                }
+                else if(key.equals("lastName")) {
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editText2çProfileLastNameSettings);
+                    editTextName.setText(value);
+                }
+                else if(key.equals("city")){
+
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editTextProfileCitySettings);
+                    editTextName.setText(value);
+                }
+                else if(key.equals("birthDate")){
+
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editTextProfileBirthDateSettings);
+                    editTextName.setText(value);
+                }
+
+                else if(key.equals("phone")){
+
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editTextProfileSettingsPhone);
+                    editTextName.setText(value);
+                }
+
+                else if(key.equals("gender")){
+
+                    String value = (String)dataSnapshot.getValue();
+                    EditText editTextName = findViewById(R.id.editTextProfileGenderSettings);
+                    editTextName.setText(value);
+                }
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        mAuth = FirebaseAuth.getInstance();
+        fireBaseUser = mAuth.getCurrentUser();
+         id = fireBaseUser.getUid();
+        final LinearLayout linearLayoutEducation = findViewById(R.id.linearLayoutEducation);
+        mDataBase.child("education").child(id).orderByValue().addChildEventListener(new ChildEventListener() {
+             @Override
+             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                 String value = (String)dataSnapshot.getValue();
+                 TextView textView = new TextView(getApplicationContext());
+                 textView.setText(" " + value + " ");
+                 linearLayoutEducation.addView(textView);
+
+             }
+
+             @Override
+             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+             }
+
+             @Override
+             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+             }
+
+             @Override
+             public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+             }
+
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+
+
+        }
 
     public void OnClickButtonAddEducation(View view){
 
@@ -96,6 +208,26 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
     }
 
+    public void FirebaseUpdateUser(Map<String,Object> userMap){
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fireBaseUser = mAuth.getCurrentUser();
+        String id = fireBaseUser.getUid();
+        mDataBase.child("users").child(id).updateChildren(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Perfil actualizado",Toast.LENGTH_LONG).show();
+
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "No se pudo actualizar el perfil",Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
+    }
     public void FirebaseWriteNewEducation(Map<String,Object> mapEducation ){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -172,8 +304,9 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         }
         else if(origin.equals("profile")){
 
-            //  POST to
-
+            Map<String,Object> userMap = GetUserMap( name,  lastName,  city,  birthDate,
+                    gender,  phone,  email);
+            this.FirebaseUpdateUser(userMap);
         }
         else{
             Toast.makeText(getApplicationContext(),"holaaaaaa", Toast.LENGTH_LONG).show();
