@@ -158,32 +158,10 @@
             app:layout_constraintTop_toBottomOf="@+id/imageViewProfilePhoto">
 
             <LinearLayout
+                android:id="@+id/linearLayoutEducationProfile"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView14"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Stanford MIT USA colombia" />
-
-                <TextView
-                    android:id="@+id/textView13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="UCR" />
-
-                <TextView
-                    android:id="@+id/textViewProfileEduExample"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_weight="1"
-                    android:text="Instituto Tecnologico de Costa Rica" />
             </LinearLayout>
         </HorizontalScrollView>
 

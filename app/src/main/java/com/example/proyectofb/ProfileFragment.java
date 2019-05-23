@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -93,9 +94,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     }
 
     public void ReadTest(final View view){
+
+        // Personal Info
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference("users");
-
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = auth.getInstance().getCurrentUser();
         String id = firebaseUser.getUid();
@@ -112,14 +114,82 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     textView.setText(value);
 
                 }
+                else if(key.equals("lastName")){
+
+                    value = (String)dataSnapshot.getValue();
+                    TextView textView= view.findViewById(R.id.textViewProfileName);
+                    textView.setText(textView.getText() + " " + value);
+                }
                 else if(key.equals("city")){
                     value = (String)dataSnapshot.getValue();
                     TextView textView= view.findViewById(R.id.textViewProfileCity);
                     textView.setText(value);
 
                 }
+                else if(key.equals("birthDate")){
 
+                    value = (String)dataSnapshot.getValue();
+                    TextView textView= view.findViewById(R.id.textViewProfileBirthDate);
+                    textView.setText(value);
+                }
+                else if(key.equals("email")){
 
+                    value = (String)dataSnapshot.getValue();
+                    TextView textView= view.findViewById(R.id.textViewProfileEmail);
+                    textView.setText(value);
+                }
+                else if(key.equals("gender")){
+
+                    value = (String)dataSnapshot.getValue();
+                    TextView textView= view.findViewById(R.id.textViewProfileGender);
+                    textView.setText(value);
+                }
+                else if(key.equals("phone")){
+
+                    value = (String)dataSnapshot.getValue();
+                    TextView textView= view.findViewById(R.id.textViewProfilePhone);
+                    textView.setText(value);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        // Education Info
+        database = FirebaseDatabase.getInstance();
+        databaseRef = database.getReference("education");
+
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getInstance().getCurrentUser();
+        id = firebaseUser.getUid();
+
+        databaseRef.child(id).orderByValue().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                LinearLayout linearLayoutEducationProfile = view.findViewById(R.id.linearLayoutEducationProfile);
+                String value = (String)dataSnapshot.getValue();
+                TextView textViewEducation = new TextView(getActivity());
+                textViewEducation.setText(" " + value + " ");
+                linearLayoutEducationProfile.addView(textViewEducation);
 
             }
 
@@ -143,6 +213,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event

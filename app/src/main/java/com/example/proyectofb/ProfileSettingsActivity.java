@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -74,6 +75,45 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
 
     }
+
+
+    public Map<String,Object> GetEducationMap(){
+
+        ArrayList<String> educationList = new ArrayList<>();
+        LinearLayout educationLayout = findViewById(R.id.linearLayoutEducation);
+        for(int i  = 0 ; i < educationLayout.getChildCount();i++){
+            TextView textViewEducation = (TextView) educationLayout.getChildAt(i);
+            String textEducation = textViewEducation.getText().toString();
+            educationList.add(textEducation);
+        }
+
+        Map<String,Object> mapEducation  = new HashMap<>();
+        String edu = "edu";
+        for(int i = 0 ; i < educationList.size();i++){
+            mapEducation.put("edu" + String.valueOf(i+1), educationList.get(i));
+        }
+        return mapEducation;
+
+    }
+
+    public void FirebaseWriteNewEducation(Map<String,Object> mapEducation ){
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser fireBaseUser = mAuth.getCurrentUser();
+
+        String id = fireBaseUser.getUid();
+        mDataBase.child("education").child(id).setValue(mapEducation).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                    Toast.makeText(getApplicationContext(), "Edu agregada",Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+
+    }
     public void FirebaseWriteNewUser(Map<String,Object> mapUser  ){
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -123,10 +163,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
 
         if(this.origin.equals("signUp")){
 
-            Toast.makeText(getApplicationContext(),"holaaaaaa", Toast.LENGTH_LONG).show();
             Map<String,Object> userMap = GetUserMap( name,  lastName,  city,  birthDate,
                     gender,  phone,  email);
             this.FirebaseWriteNewUser(userMap);
+            Map<String,Object> educationMap = this.GetEducationMap();
+            this.FirebaseWriteNewEducation(educationMap);
 
         }
         else if(origin.equals("profile")){
@@ -137,10 +178,5 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         else{
             Toast.makeText(getApplicationContext(),"holaaaaaa", Toast.LENGTH_LONG).show();
         }
-
-
-
-
-
     }
 }
