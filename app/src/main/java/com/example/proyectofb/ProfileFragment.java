@@ -1,8 +1,10 @@
 package com.example.proyectofb;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,9 +24,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
-import java.util.Map;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.concurrent.ExecutionException;
 
 
 /**
@@ -88,8 +93,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Button buttonFriends = view.findViewById(R.id.buttonProfileFriends);
         buttonFriends.setOnClickListener(this);
-        Button buttonProfileSettings = view.findViewById(R.id.buttonProfileSettings);
-        buttonProfileSettings.setOnClickListener(this);
+        Button buttonProfileOptions = view.findViewById(R.id.buttonProfileOptions);
+        buttonProfileOptions.setOnClickListener(this);
         ImageView imageViewProfilePhoto = view.findViewById(R.id.imageViewProfilePhoto);
         imageViewProfilePhoto.setOnClickListener(this);
         ReadTest(view);
@@ -152,6 +157,22 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                     value = (String)dataSnapshot.getValue();
                     TextView textView= view.findViewById(R.id.textViewProfilePhone);
                     textView.setText(value);
+                }
+                else if(key.equals("profilePhotoUrl")){
+
+                    value = (String)dataSnapshot.getValue();
+                    ImageView imageView = view.findViewById(R.id.imageViewProfilePhoto);
+
+                    ImageDownloader imageDownloader = new ImageDownloader();
+
+                    try {
+                        Bitmap bitmap = imageDownloader.execute(value).get();
+                        imageView.setImageBitmap(bitmap);
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -246,10 +267,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             case R.id.buttonProfilePhotos:
                 break;
-            case R.id.buttonProfileSettings:
-                Intent intentSettings = new Intent(getActivity(), ProfileSettingsActivity.class);
-                intentSettings.putExtra("origin","profile");
-                startActivity(intentSettings);
+            case R.id.buttonProfileOptions:
+                Intent intentOptions = new Intent(getActivity(), OptionsActivity.class);
+                startActivity(intentOptions);
                 break;
             case R.id.buttonProfileFriends:
                 Intent intentFriends = new Intent(getActivity(), FriendsListActivity.class);
@@ -273,6 +293,31 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
+
     }
 
 

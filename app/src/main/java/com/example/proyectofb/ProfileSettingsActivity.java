@@ -51,8 +51,6 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     }
 
     public void FillUserInfo(){
-
-
         // Personal Info
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser fireBaseUser = mAuth.getCurrentUser();
@@ -183,8 +181,8 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         mapUser.put("gender",gender);
         mapUser.put("phone",phone);
         mapUser.put("email",email);
+        mapUser.put("profilePhotoUrl","hola");
         return mapUser;
-
 
     }
 
