@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -45,81 +46,21 @@ public class PhotosActivity extends AppCompatActivity {
 
     private int GALLERY_REQUEST = 100;
     Uri uploadPhoto;
+    ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
+        viewPager = findViewById(R.id.viewPagerPhotos);
+
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+        viewPager.setAdapter(viewPagerAdapter);
         uploadPhoto = null;
         Toast.makeText(getApplicationContext(),"Cargando Fotos...", Toast.LENGTH_LONG).show();
-        FireBaseGetAllPhotos();
-    }
-
-
-    public void FireBaseGetAllPhotos(){
-
-
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser fireBaseUser = mAuth.getCurrentUser();
-        String id = fireBaseUser.getUid();
-
-        final LinearLayout linearLayoutPhotos = findViewById(R.id.linearLayoutPhotos);
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseRef = database.getReference("photos");
-        databaseRef.child(id).orderByValue().addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                String value = (String)dataSnapshot.getValue();
-                ImageView imageView = new ImageView(getApplicationContext());
-                int width = 200;
-                int height = 600;
-                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width,height);
-                imageView.setLayoutParams(parms);
-                ImageDownloader imageDownloader = new ImageDownloader();
-
-                try {
-                    Bitmap bitmap = imageDownloader.execute(value).get();
-                    imageView.setImageBitmap(bitmap);
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Toast.makeText(getApplicationContext(), "Imagen seleccionada",Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    linearLayoutPhotos.setDividerPadding(10);
-                    linearLayoutPhotos.addView(imageView);
-
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
     }
+
+
 
     public void OnClickButtonUploadPhoto(View view){
 
@@ -205,28 +146,6 @@ public class PhotosActivity extends AppCompatActivity {
         }
     }
 
-    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... urls) {
 
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                return bitmap;
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-            return null;
-        }
-
-    }
 
 }
