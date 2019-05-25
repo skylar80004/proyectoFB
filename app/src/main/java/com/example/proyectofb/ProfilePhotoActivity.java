@@ -74,6 +74,15 @@ public class ProfilePhotoActivity extends AppCompatActivity {
                                     }
                                 }
                             });
+                            mDataBase.child("photos").child(id).child("profilePhotoUrl").setValue(profilePhotoUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+
+                                    if(task.isSuccessful()){
+
+                                    }
+                                }
+                            });
                         }
                     });
                 }

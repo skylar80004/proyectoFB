@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OptionsActivity"></activity>
+        <activity android:name=".PhotosActivity"></activity>
+        <activity android:name=".OptionsActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ProfilePhotoActivity" />
         <activity android:name=".ProfileSettingsActivity" />

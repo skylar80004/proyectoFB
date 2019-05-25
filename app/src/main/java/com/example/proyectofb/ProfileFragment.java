@@ -97,6 +97,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         buttonProfileOptions.setOnClickListener(this);
         ImageView imageViewProfilePhoto = view.findViewById(R.id.imageViewProfilePhoto);
         imageViewProfilePhoto.setOnClickListener(this);
+        Button buttonPhotos = view.findViewById(R.id.buttonProfilePhotos);
+        buttonPhotos.setOnClickListener(this);
         ReadTest(view);
         return view;
     }
@@ -266,6 +268,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
 
             case R.id.buttonProfilePhotos:
+                Intent intentProfilePhotos = new Intent(getActivity(), PhotosActivity.class);
+                startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonProfileOptions:
                 Intent intentOptions = new Intent(getActivity(), OptionsActivity.class);
@@ -295,28 +299,28 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
     }
 
-    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
-        @Override
-        protected Bitmap doInBackground(String... urls) {
 
-            try {
-                URL url = new URL(urls[0]);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-                InputStream inputStream = connection.getInputStream();
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                return bitmap;
+        public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
+            @Override
+            protected Bitmap doInBackground(String... urls) {
 
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    URL url = new URL(urls[0]);
+                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                    connection.connect();
+                    InputStream inputStream = connection.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    return bitmap;
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+
+                return null;
             }
-
-
-            return null;
-        }
-
 
     }
 
