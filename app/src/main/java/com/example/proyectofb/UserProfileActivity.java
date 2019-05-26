@@ -15,6 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -205,7 +207,24 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonUserProfileSendFriend:
-                Toast.makeText(this, "Solicitud de Amistad Enviada",Toast.LENGTH_LONG).show();
+
+
+                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                String currentSessionUserID = user.getUid();
+
+                FirebaseDatabase database  =  FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference();
+                reference.child("notifications").child(userID).child("friendSoli").child(currentSessionUserID).setValue("pending").addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                        if(task.isSuccessful()){
+                            Toast.makeText(getApplicationContext(), "Solicitud de Amistad Enviada",Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
                 break;
 
         }
