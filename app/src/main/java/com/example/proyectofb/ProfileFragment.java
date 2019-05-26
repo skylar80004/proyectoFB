@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -89,6 +90,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Toast.makeText(getActivity(), "Cargando perfil...",Toast.LENGTH_LONG).show();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
         Button buttonFriends = view.findViewById(R.id.buttonProfileFriends);

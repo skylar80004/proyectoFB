@@ -1,6 +1,7 @@
 package com.example.proyectofb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +25,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class ViewPagerAdapter extends PagerAdapter{
 
 
 
@@ -39,10 +43,22 @@ public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private ArrayList<Bitmap> bitmapList = new ArrayList<>();
+    private int position = 0 ;
+    private boolean fromFullScreen = false;
+    private boolean validateFull = false;
 
     public ViewPagerAdapter(Context context){
         this.context = context;
         this.FireBaseGetAllPhotos();
+        this.fromFullScreen = false;
+    }
+
+    public ViewPagerAdapter(Context context, int position){
+        this.context = context;
+        this.position = position;
+        this.fromFullScreen = true;
+        this.FireBaseGetAllPhotos();
+
     }
 
 
@@ -58,16 +74,58 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @NonNull
     @Override
-    public Object instantiateItem(@NonNull ViewGroup container, int position) {
+    public Object instantiateItem(@NonNull ViewGroup container, final int position) {
 
-        this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.custom_layout,null);
-        ImageView imageView = view.findViewById(R.id.imageViewCustomLayout);
-        imageView.setImageBitmap(this.bitmapList.get(position));
+        if(this.fromFullScreen){
+            this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.custom_layout,null);
+            ImageView imageView = view.findViewById(R.id.imageViewCustomLayout);
+            imageView.setImageBitmap(this.bitmapList.get(this.position));
+            ViewPager viewPager = (ViewPager)container;
+            viewPager.addView(view,0);
+            this.fromFullScreen = false;
+            validateFull = true;
 
-        ViewPager viewPager = (ViewPager)container;
-        viewPager.addView(view,0);
-        return view;
+            return view;
+        }
+        else if(!this.fromFullScreen && validateFull){
+
+            this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.custom_layout,null);
+            ImageView imageView = view.findViewById(R.id.imageViewCustomLayout);
+            imageView.setImageBitmap(this.bitmapList.get(position));
+            ViewPager viewPager = (ViewPager)container;
+            viewPager.addView(view,0);
+            this.fromFullScreen = false;
+            return view;
+
+
+        }
+        else{
+
+            this.layoutInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = layoutInflater.inflate(R.layout.custom_layout,null);
+            ImageView imageView = view.findViewById(R.id.imageViewCustomLayout);
+            imageView.setImageBitmap(this.bitmapList.get(position));
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context,FullScreenPhotosActivity.class);
+                    context.startActivity(intent);
+                    intent.putExtra("position",position);
+                    context.startActivity(intent);
+
+
+                }
+            });
+
+            ViewPager viewPager = (ViewPager)container;
+            viewPager.addView(view,0);
+            return view;
+
+        }
+
     }
 
     @Override

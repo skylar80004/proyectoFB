@@ -52,11 +52,11 @@ public class PhotosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
         viewPager = findViewById(R.id.viewPagerPhotos);
+        Toast.makeText(getApplicationContext(),"Cargando Fotos...", Toast.LENGTH_LONG).show();
 
         ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
         viewPager.setAdapter(viewPagerAdapter);
         uploadPhoto = null;
-        Toast.makeText(getApplicationContext(),"Cargando Fotos...", Toast.LENGTH_LONG).show();
 
     }
 
