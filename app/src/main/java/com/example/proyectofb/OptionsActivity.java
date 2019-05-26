@@ -33,6 +33,7 @@ public class OptionsActivity extends AppCompatActivity {
     public void OnClickButtonLogOut(View view){
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
+        finish();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
@@ -59,6 +60,7 @@ public class OptionsActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         FireBaseDeleteAcount();
+                        finish();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
 
