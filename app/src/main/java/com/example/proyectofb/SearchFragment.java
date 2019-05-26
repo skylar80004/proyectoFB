@@ -137,12 +137,13 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 text = text.toLowerCase();
                 Toast.makeText(getActivity(), "Buscando usuarios...", Toast.LENGTH_LONG).show();
                 this.FireBaseSearchUser(text);
-
                 UserThumbnailAdapter adapter = new UserThumbnailAdapter(this.userList);
                 adapter.notifyDataSetChanged();
                 this.recyclerViewSearch.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 break;
+
+                //https://www.youtube.com/watch?v=X-hYIQcmXUw
         }
     }
 
@@ -167,6 +168,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
         String id = user.getUid();
+        this.userList.clear();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference  databaseReference = database.getReference();
@@ -193,8 +195,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-
-                    UserThumbnail userThumbnail  = new UserThumbnail(name,lastName,bitmap);
+                    String id = dataSnapshot.getKey();
+                    UserThumbnail userThumbnail  = new UserThumbnail(name,lastName,bitmap,id);
                     userList.add(userThumbnail);
                 }
             }

@@ -84,6 +84,10 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
+        Intent intent = getActivity().getIntent();
+        String id = intent.getStringExtra("userID");
+        Toast.makeText(getActivity(), id, Toast.LENGTH_LONG).show();
+
 
     }
 

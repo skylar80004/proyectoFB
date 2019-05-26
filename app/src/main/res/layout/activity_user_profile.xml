@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".UserProfileActivity">
+
+    <ImageView
+        android:id="@+id/imageViewProfilePhoto2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="44dp"
+        android:src="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewProfileName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="328dp"
+        android:layout_marginBottom="8dp"
+        android:text="Jose Villalobos"
+        app:layout_constraintBottom_toTopOf="@+id/imageViewProfilePhoto2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/textViewProfileBirthDateTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Fecha de Nacimiento:"
+        app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileName2" />
+
+    <TextView
+        android:id="@+id/textViewProfileBirthDate2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:text="01/01/2019"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileBirthDateTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileName2" />
+
+    <TextView
+        android:id="@+id/textViewProfileGenderTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Género:"
+        app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDateTitle2" />
+
+    <TextView
+        android:id="@+id/textViewProfileGender2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Hombre"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileGenderTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDateTitle2" />
+
+    <TextView
+        android:id="@+id/textViewProfilePhoneTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Teléfono:"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileGender2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDate2" />
+
+    <TextView
+        android:id="@+id/textViewProfilePhone2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="86221144"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfilePhoneTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileBirthDate2" />
+
+    <TextView
+        android:id="@+id/textViewProfileEmailTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Email:"
+        app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileGenderTitle2" />
+
+    <TextView
+        android:id="@+id/textViewProfileEmail2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="email@email.com"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileEmailTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileGender2" />
+
+    <TextView
+        android:id="@+id/textViewProfileCityTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Ciudad:"
+        app:layout_constraintStart_toEndOf="@+id/imageViewProfilePhoto2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileEmailTitle2" />
+
+    <TextView
+        android:id="@+id/textViewProfileCity2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Cartago"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.011"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileCityTitle2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileEmail2" />
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView2"
+        android:layout_width="0dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/textViewProfileEducation2"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfilePhoto2">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutEducationProfile2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <TextView
+        android:id="@+id/textViewProfileEducation2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:text="Educación:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewProfilePhoto2" />
+
+    <Button
+        android:id="@+id/buttonProfilePhotos2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:background="@color/colorPrimary"
+        android:text="Fotos"
+        android:textColor="@color/colorText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewProfileEducation2" />
+
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <Button
+        android:id="@+id/buttonUserProfileSendFriend"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorPrimary"
+        android:text="Enviar solicitud de amistad"
+        android:textColor="@color/colorText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/buttonProfilePhotos2"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2" />
+
+</android.support.constraint.ConstraintLayout>

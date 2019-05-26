@@ -30,8 +30,10 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
             android:text="Buscar Usuarios"
-            app:layout_constraintEnd_toStartOf="@+id/buttonSearchPosts"
+            android:textColor="@color/colorText"
+            app:layout_constraintEnd_toStartOf="@+id/textViewSearchSeparator"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/editTextSearch" />
 
@@ -39,10 +41,14 @@
             android:id="@+id/buttonSearchPosts"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            android:background="@color/colorPrimary"
             android:text="Buscar Publicaciones"
+            android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textViewSearchSeparator"
             app:layout_constraintTop_toBottomOf="@+id/editTextSearch" />
 
         <android.support.v7.widget.RecyclerView
@@ -57,5 +63,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/buttonSearchUsers" />
+
+        <TextView
+            android:id="@+id/textViewSearchSeparator"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewSearch"
+            app:layout_constraintTop_toBottomOf="@+id/editTextSearch"
+            app:layout_constraintStart_toEndOf="@id/buttonSearchUsers"
+            app:layout_constraintEnd_toStartOf="@id/buttonSearchPosts"
+            tools:layout_editor_absoluteX="195dp" />
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
