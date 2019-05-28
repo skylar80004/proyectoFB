@@ -207,27 +207,32 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonUserProfileSendFriend:
-
-
-                FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                String currentSessionUserID = user.getUid();
-
-                FirebaseDatabase database  =  FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference();
-                reference.child("notifications").child(userID).child("friendSoli").child(currentSessionUserID).setValue("pending").addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-
-                        if(task.isSuccessful()){
-                            Toast.makeText(getApplicationContext(), "Solicitud de Amistad Enviada",Toast.LENGTH_LONG).show();
-
-                        }
-                    }
-                });
+                FirebaseSendFriendSolicitude();
                 break;
 
         }
+
+    }
+
+
+    public void FirebaseSendFriendSolicitude(){
+
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String currentSessionUserID = user.getUid();
+
+        FirebaseDatabase database  =  FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference();
+        reference.child("notifications").child(userID).child("friendSoli").child(currentSessionUserID).setValue("pending").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(), "Solicitud de Amistad Enviada",Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+        });
 
     }
 
