@@ -47,10 +47,15 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         ImageView imageViewProfilePhoto = findViewById(R.id.imageViewProfilePhoto2);
         imageViewProfilePhoto.setOnClickListener(this);
+
         Button buttonPhotos = findViewById(R.id.buttonProfilePhotos2);
         buttonPhotos.setOnClickListener(this);
+
         Button buttonSendFriends = findViewById(R.id.buttonUserProfileSendFriend);
         buttonSendFriends.setOnClickListener(this);
+
+        Button buttonSeeFriends = findViewById(R.id.buttonProfileFriends2);
+        buttonSeeFriends.setOnClickListener(this);
         ReadTest();
 
     }
@@ -197,6 +202,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         switch(v.getId()){
 
+            case R.id.buttonProfileFriends2:
+                Intent intentFriends = new Intent(this, FriendsListActivity.class);
+                intentFriends.putExtra("userID", this.userID);
+                startActivity(intentFriends);
+                break;
             case R.id.imageViewProfilePhoto2:
                 Intent intent = new Intent(this, ProfilePhotoActivity.class);
                 startActivity(intent);

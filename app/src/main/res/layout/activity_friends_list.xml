@@ -10,10 +10,11 @@
         android:id="@+id/buttonFriendsListAll"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary"
+        android:onClick="OnClickButtonAllFriends"
         android:text="Todos"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toStartOf="@+id/buttonFriendsListInCommon"
@@ -26,38 +27,24 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary"
         android:text="Amigos en común"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ListView
-        android:id="@+id/listViewFriendsListNames"
-        android:layout_width="0dp"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerViewFriends2"
+        android:layout_width="395dp"
         android:layout_height="651dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/scrollViewFriensListThumbnai"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonFriendsListAll" />
 
-    <ScrollView
-        android:id="@+id/scrollViewFriensListThumbnai"
-        android:layout_width="80dp"
-        android:layout_height="651dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonFriendsListInCommon">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
 </android.support.constraint.ConstraintLayout>
