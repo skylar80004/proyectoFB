@@ -61,8 +61,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     //  Recycler View user search
 
-    ArrayList<UserThumbnail> userList;
     RecyclerView recyclerViewSearch;
+    UserThumbnailAdapter userThumbnailAdapter;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -100,9 +100,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        this.userList = new ArrayList<>();
+        this.userThumbnailAdapter = new UserThumbnailAdapter();
         this.recyclerViewSearch = view.findViewById(R.id.recyclerViewSearch);
         this.recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.recyclerViewSearch.setAdapter(this.userThumbnailAdapter);
 
         Button buttonSearchUsers = view.findViewById(R.id.buttonSearchUsers);
         buttonSearchUsers.setOnClickListener(this);
@@ -137,10 +138,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 text = text.toLowerCase();
                 Toast.makeText(getActivity(), "Buscando usuarios...", Toast.LENGTH_LONG).show();
                 this.FireBaseSearchUser(text);
-                UserThumbnailAdapter adapter = new UserThumbnailAdapter(this.userList);
-                adapter.notifyDataSetChanged();
-                this.recyclerViewSearch.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
                 break;
 
                 //https://www.youtube.com/watch?v=X-hYIQcmXUw
@@ -167,8 +164,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
-        String id = user.getUid();
-        this.userList.clear();
+        final String id = user.getUid();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference  databaseReference = database.getReference();
@@ -176,29 +172,35 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                Map<String,Object> userMap = (Map<String,Object>)dataSnapshot.getValue();
-                String name = (String)userMap.get("name");
-                String lastName = (String) userMap.get("lastName");
-                String nameLower = name.toLowerCase();
-                String lastNameLower = lastName.toLowerCase();
+                String currentUserID = dataSnapshot.getKey();
+                if(!currentUserID.equals(id)){
 
-                if(nameLower.contains(text) || lastNameLower.contains(text)){ // Usuario Encontrado
+                    Map<String,Object> userMap = (Map<String,Object>)dataSnapshot.getValue();
+                    String name = (String)userMap.get("name");
+                    String lastName = (String) userMap.get("lastName");
+                    String nameLower = name.toLowerCase();
+                    String lastNameLower = lastName.toLowerCase();
 
-                    String photoUrl = (String)userMap.get("profilePhotoUrl");
-                    ImageDownloader imageDownloader = new ImageDownloader();
-                    Bitmap bitmap = null;
-                    try {
-                         bitmap = imageDownloader.execute(photoUrl).get();
+                    if(nameLower.contains(text) || lastNameLower.contains(text)){ // Usuario Encontrado
 
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        String photoUrl = (String)userMap.get("profilePhotoUrl");
+                        ImageDownloader imageDownloader = new ImageDownloader();
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = imageDownloader.execute(photoUrl).get();
+
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        String id = dataSnapshot.getKey();
+                        UserThumbnail userThumbnail  = new UserThumbnail(name,lastName,bitmap,id);
+                        userThumbnailAdapter.AddUserThumbnail(userThumbnail);
                     }
-                    String id = dataSnapshot.getKey();
-                    UserThumbnail userThumbnail  = new UserThumbnail(name,lastName,bitmap,id);
-                    userList.add(userThumbnail);
+
                 }
+
             }
 
             @Override

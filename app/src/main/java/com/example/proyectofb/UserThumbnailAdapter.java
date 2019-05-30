@@ -18,9 +18,14 @@ public class UserThumbnailAdapter extends RecyclerView.Adapter<UserThumbnailAdap
 
     ArrayList<UserThumbnail> userList;
 
-    public UserThumbnailAdapter(ArrayList<UserThumbnail> userList){
-        this.userList = userList;
+    public UserThumbnailAdapter(){
+        this.userList = new ArrayList<>();
 
+    }
+
+    public void AddUserThumbnail(UserThumbnail user){
+        this.userList.add(user);
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,6 +52,28 @@ public class UserThumbnailAdapter extends RecyclerView.Adapter<UserThumbnailAdap
                 Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
                 intent.putExtra("userID",id );
                 v.getContext().startActivity(intent);
+            }
+        });
+
+        viewHolderUserThumbnail.textViewName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra("userID",id );
+                v.getContext().startActivity(intent);
+
+            }
+        });
+
+        viewHolderUserThumbnail.textViewLastName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra("userID",id );
+                v.getContext().startActivity(intent);
+
             }
         });
     }

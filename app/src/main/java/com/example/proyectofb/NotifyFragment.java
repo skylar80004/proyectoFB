@@ -130,7 +130,7 @@ public class NotifyFragment extends Fragment  {
         Toast.makeText(getActivity(), "Buscando notificaciones...",Toast.LENGTH_LONG).show();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
-        String id = user.getUid();
+        final String id = user.getUid();
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference databaseReference = database.getReference();
@@ -139,20 +139,20 @@ public class NotifyFragment extends Fragment  {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                String value = (String)dataSnapshot.getValue();
                 final String keyUserID = dataSnapshot.getKey();
 
                 final DatabaseReference databaseReferenceUser = database.getReference();
                 databaseReferenceUser.child("users").orderByKey().addChildEventListener(new ChildEventListener() {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) { // Get info of the person who sends the frienship solicitude
 
                         String currentUserKey = dataSnapshot.getKey();
 
                         if(currentUserKey.equals(keyUserID)){
-                            Toast.makeText(getActivity(), "MATCH", Toast.LENGTH_LONG).show();
                             Map<String,Object> userMap = (Map<String, Object>) dataSnapshot.getValue();
                             String userName = userMap.get("name") + " "  +userMap.get("lastName");
-                            Notifications noti = new Notifications(userName, "Te ha enviado una solicitud de amistad", "friendSoli");
+                            Notifications noti = new Notifications(userName, "Te ha enviado una solicitud de amistad", "friendSoli",id, keyUserID);
                             notificationsAdapter.AddNotification(noti);
 
                         }

@@ -266,6 +266,12 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             }
         });
 
+        Map<String, Object> friendsMap = new HashMap<>();
+        friendsMap.put("dummy","dummy");
+        friendsMap.put("dummy2","dummy2");
+        mDataBase.child("friends").child(id).setValue(friendsMap);
+
+
     }
 
     public void OnClickButtonAddDataToProfile(View view){
