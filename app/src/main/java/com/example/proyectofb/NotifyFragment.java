@@ -126,8 +126,6 @@ public class NotifyFragment extends Fragment  {
 
     public void FirebaseGetNotifications(){
 
-
-        Toast.makeText(getActivity(), "Buscando notificaciones...",Toast.LENGTH_LONG).show();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
         final String id = user.getUid();

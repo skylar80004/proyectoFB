@@ -34,7 +34,7 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
 
 
-        Fragment frag = ProfileFragment.newInstance("hola", "mundo");
+        Fragment frag = null;
         switch (position){
 
             case 4:
