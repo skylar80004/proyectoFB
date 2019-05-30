@@ -13,8 +13,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class OptionsActivity extends AppCompatActivity {
+
+    DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +46,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
+        deleteInfo(user.getUid());
         user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -51,6 +56,19 @@ public class OptionsActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void deleteInfo(String uId) {
+        myRef = FirebaseDatabase.getInstance().getReference("education").child(uId);
+        myRef.removeValue();
+        myRef = FirebaseDatabase.getInstance().getReference("friends").child(uId);
+        myRef.removeValue();
+        myRef = FirebaseDatabase.getInstance().getReference("photos").child(uId);
+        myRef.removeValue();
+        myRef = FirebaseDatabase.getInstance().getReference("users").child(uId);
+        myRef.removeValue();
+    }
+
+
     public void OnClickButtonDeleteAccount(View view){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
