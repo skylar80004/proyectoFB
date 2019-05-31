@@ -1,8 +1,10 @@
 package com.example.proyectofb;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class OptionsActivity extends AppCompatActivity {
 
     DatabaseReference myRef;
+    int profileOptionsSettingsCode = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +40,7 @@ public class OptionsActivity extends AppCompatActivity {
 
         Intent intent  = new Intent(this,ProfileSettingsActivity.class);
         intent.putExtra("origin","profile");
-        startActivity(intent);
+        startActivityForResult(intent,this.profileOptionsSettingsCode);
     }
 
     public void OnClickButtonLogOut(View view){
@@ -98,5 +101,20 @@ public class OptionsActivity extends AppCompatActivity {
         });
         builder.create();
         builder.show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == this.profileOptionsSettingsCode){
+            if(resultCode == Activity.RESULT_OK){
+
+                Intent returnIntent = new Intent();
+                setResult(Activity.RESULT_OK, returnIntent);
+                finish();
+            }
+        }
+
     }
 }

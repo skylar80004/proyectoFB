@@ -180,7 +180,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:background="@color/colorPrimary"
             android:text="Fotos"
             android:textColor="@color/colorText"
@@ -191,28 +191,28 @@
             android:id="@+id/buttonProfileOptions"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="12dp"
             android:background="@color/colorPrimary"
             android:text="Opciones"
             android:textColor="@color/colorText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+            app:layout_constraintTop_toBottomOf="@+id/textViewProfileEducation" />
 
         <Button
             android:id="@+id/buttonProfileFriends"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:background="@color/colorPrimary"
             android:text="Amigos"
             android:textColor="@color/colorText"
             app:layout_constraintEnd_toStartOf="@+id/buttonProfileOptions"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/buttonProfilePhotos"
-            app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+            app:layout_constraintTop_toBottomOf="@id/textViewProfileEducation" />
 
         <ScrollView
             android:layout_width="0dp"

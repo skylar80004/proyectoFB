@@ -1,5 +1,6 @@
 package com.example.proyectofb;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,12 +48,14 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
+
+
+    private View view;
+    private int profilePhotoCode = 1;
+    private int profileOptionsSettingsCode = 2;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -108,6 +111,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Button buttonPhotos = view.findViewById(R.id.buttonProfilePhotos);
         buttonPhotos.setOnClickListener(this);
         ReadTest(view);
+        this.view = view;
+
         return view;
     }
 
@@ -272,16 +277,15 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             case R.id.imageViewProfilePhoto:
                 Intent intent = new Intent(getActivity(), ProfilePhotoActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,this.profilePhotoCode);
                 break;
-
             case R.id.buttonProfilePhotos:
                 Intent intentProfilePhotos = new Intent(getActivity(), PhotosActivity.class);
                 startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonProfileOptions:
                 Intent intentOptions = new Intent(getActivity(), OptionsActivity.class);
-                startActivity(intentOptions);
+                startActivityForResult(intentOptions, this.profileOptionsSettingsCode);
                 break;
             case R.id.buttonProfileFriends:
                 Intent intentFriends = new Intent(getActivity(), FriendsListActivity.class);
@@ -307,8 +311,33 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         void onFragmentInteraction(Uri uri);
     }
 
+    @Override
+    public void onHiddenChanged(boolean hidden) { // Recargar fragment para actualizar datos
+        super.onHiddenChanged(hidden);
+        if(!hidden && this.view != null){
+            this.ReadTest(view);
 
-        public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == this.profilePhotoCode){
+            if(resultCode == Activity.RESULT_OK){
+                this.ReadTest(this.view);
+            }
+        }
+        else if(requestCode == this.profileOptionsSettingsCode){
+            if(resultCode == Activity.RESULT_OK){
+
+                //Toast.makeText(getActivity(),"jose", Toast.LENGTH_LONG).show();
+                this.ReadTest(this.view);
+            }
+        }
+    }
+
+    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
             @Override
             protected Bitmap doInBackground(String... urls) {
 

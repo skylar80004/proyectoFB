@@ -162,6 +162,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     public boolean FireBaseSearchUser(final String text){
 
+
+        this.userThumbnailAdapter.clearItems();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
         final String id = user.getUid();

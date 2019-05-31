@@ -28,6 +28,11 @@ public class UserThumbnailAdapter extends RecyclerView.Adapter<UserThumbnailAdap
         this.notifyDataSetChanged();
     }
 
+    public void clearItems(){
+        this.userList.clear();
+        this.notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public ViewHolderUserThumbnail onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {

@@ -1,5 +1,6 @@
 package com.example.proyectofb;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -34,6 +35,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private EditText editTextEmail;
     String origin = "";
+    String photoUrl;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -41,10 +43,14 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile_settings);
         Intent intent = getIntent();
         this.origin = intent.getStringExtra("origin");
+
         mDataBase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
         editTextEmail = findViewById(R.id.editTextProfileEmailSettings);
         editTextEmail.setText( mAuth.getInstance().getCurrentUser().getEmail());
+
+        this.photoUrl = "";
         if(origin.equals("profile")){
             this.FillUserInfo();
         }
@@ -102,6 +108,11 @@ public class ProfileSettingsActivity extends AppCompatActivity {
                     String value = (String)dataSnapshot.getValue();
                     EditText editTextName = findViewById(R.id.editTextProfileGenderSettings);
                     editTextName.setText(value);
+                }
+                else if(key.equals("profilePhotoUrl")){
+                    photoUrl  = (String) dataSnapshot.getValue();
+
+
                 }
 
             }
@@ -188,7 +199,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         mapUser.put("gender",gender);
         mapUser.put("phone",phone);
         mapUser.put("email",email);
-        mapUser.put("profilePhotoUrl","hola");
+        mapUser.put("profilePhotoUrl",this.photoUrl);
         return mapUser;
 
     }
@@ -318,9 +329,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             Map<String,Object> userMap = GetUserMap( name,  lastName,  city,  birthDate,
                     gender,  phone,  email);
             this.FirebaseUpdateUser(userMap);
+            Intent returnIntent = new Intent();
+            setResult(Activity.RESULT_OK, returnIntent);
+            finish();
         }
         else{
             Toast.makeText(getApplicationContext(),"holaaaaaa", Toast.LENGTH_LONG).show();
         }
     }
+
 }

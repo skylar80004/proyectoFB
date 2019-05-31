@@ -44,6 +44,9 @@ public class ProfilePhotoActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp(){
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+        finish();
         onBackPressed();
         return false;
     }
@@ -62,12 +65,10 @@ public class ProfilePhotoActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                    Toast.makeText(getApplicationContext(), "Foto Subida a storage",Toast.LENGTH_LONG).show();
                     photoReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
                             profilePhotoUrl = uri.toString();
-                            Toast.makeText(getApplicationContext(), profilePhotoUrl,Toast.LENGTH_LONG).show();
                             // Actualizar perfil
                             DatabaseReference mDataBase = FirebaseDatabase.getInstance().getReference();
                             mDataBase.child("users").child(id).child("profilePhotoUrl").setValue(profilePhotoUrl).addOnCompleteListener(new OnCompleteListener<Void>() {

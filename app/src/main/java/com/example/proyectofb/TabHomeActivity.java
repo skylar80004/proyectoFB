@@ -37,6 +37,8 @@ public class TabHomeActivity extends AppCompatActivity {
         });
     }
 
+
+
     public void OnClickButtonFriends(View view){
 
         Intent intent = new Intent(getApplicationContext(), FriendsListActivity.class);
