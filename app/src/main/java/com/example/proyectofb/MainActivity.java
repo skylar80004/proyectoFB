@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
+    private int SingUpCode = 4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public void OnClickButtonSignUp(View view){
 
         Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,this.SingUpCode);
 
 
     }

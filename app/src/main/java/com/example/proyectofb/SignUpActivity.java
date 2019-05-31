@@ -1,7 +1,9 @@
 package com.example.proyectofb;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -17,12 +19,20 @@ public class SignUpActivity extends AppCompatActivity {
 
 
     private FirebaseAuth mAuth;
-
+    private int signUpCode = 5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         mAuth = FirebaseAuth.getInstance();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        finish();
+        onBackPressed();
+        return false;
     }
 
     public void OnClickButtonSignUpInitial(View view){
@@ -33,7 +43,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         String pass, confirmPass;
         pass = editTextPass.getText().toString();
-        confirmPass = editTextPass.getText().toString();
+        confirmPass = editText.getText().toString();
 
         if(pass.equals(confirmPass)){
 
@@ -60,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Nuevo usuario registrado con exito.",Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), ProfileSettingsActivity.class);
                     intent.putExtra("origin","signUp");
-                    startActivity(intent);
+                    startActivityForResult(intent,signUpCode);
                 }
                 else{
                     Toast.makeText(getApplicationContext(), "No fue posible registrar el nuevo usuario.",Toast.LENGTH_LONG).show();
@@ -68,5 +78,19 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == this.signUpCode){
+            if(resultCode == Activity.RESULT_OK){
+
+                Intent intent = new Intent();
+                setResult(Activity.RESULT_OK,intent);
+                finish();
+            }
+        }
     }
 }

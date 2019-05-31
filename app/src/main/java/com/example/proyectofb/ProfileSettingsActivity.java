@@ -322,6 +322,7 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             this.FirebaseWriteNewUser(userMap);
             Map<String,Object> educationMap = this.GetEducationMap();
             this.FirebaseWriteNewEducation(educationMap);
+            returnIntent();
 
         }
         else if(origin.equals("profile")){
@@ -329,13 +330,19 @@ public class ProfileSettingsActivity extends AppCompatActivity {
             Map<String,Object> userMap = GetUserMap( name,  lastName,  city,  birthDate,
                     gender,  phone,  email);
             this.FirebaseUpdateUser(userMap);
-            Intent returnIntent = new Intent();
-            setResult(Activity.RESULT_OK, returnIntent);
-            finish();
+            returnIntent();
         }
         else{
             Toast.makeText(getApplicationContext(),"holaaaaaa", Toast.LENGTH_LONG).show();
         }
+    }
+
+    public void returnIntent(){
+
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+
     }
 
 }
