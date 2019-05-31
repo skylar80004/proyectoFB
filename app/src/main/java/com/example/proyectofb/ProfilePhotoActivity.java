@@ -39,8 +39,14 @@ public class ProfilePhotoActivity extends AppCompatActivity {
         this.profilePhotoUri = null;
         this.mStorageReference = FirebaseStorage.getInstance().getReference();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return false;
+    }
 
 
     public void OnClickButtonUploadPhoto(View view){

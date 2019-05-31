@@ -58,8 +58,14 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         buttonSeeFriends.setOnClickListener(this);
         ReadTest();
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return false;
+    }
     public void ReadTest(){
 
         // Personal Info

@@ -46,6 +46,13 @@ public class FriendsListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.userThumbnailAdapter = new UserThumbnailAdapter();
         recyclerView.setAdapter(this.userThumbnailAdapter);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return false;
     }
 
 

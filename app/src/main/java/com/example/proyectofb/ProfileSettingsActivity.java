@@ -48,6 +48,13 @@ public class ProfileSettingsActivity extends AppCompatActivity {
         if(origin.equals("profile")){
             this.FillUserInfo();
         }
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return false;
     }
 
     public void FillUserInfo(){

@@ -58,8 +58,14 @@ public class PhotosActivity extends AppCompatActivity {
         viewPager.setAdapter(viewPagerAdapter);
         uploadPhoto = null;
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+    @Override
+    public boolean onSupportNavigateUp(){
+        onBackPressed();
+        return false;
+    }
 
 
     public void OnClickButtonUploadPhoto(View view){
