@@ -9,15 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".UserProfileActivity"></activity>
+        <activity android:name=".NewPostActivity"></activity>
+        <activity android:name=".UserProfileActivity" />
         <activity android:name=".FullScreenPhotosActivity" />
         <activity android:name=".PhotosActivity" />
         <activity android:name=".OptionsActivity" />
         <activity android:name=".SignUpActivity" />
         <activity android:name=".ProfilePhotoActivity" />
-        <activity android:name=".ProfileSettingsActivity"
-            android:windowSoftInputMode="adjustNothing">
-        </activity>
+        <activity
+            android:name=".ProfileSettingsActivity"
+            android:windowSoftInputMode="adjustNothing"></activity>
         <activity android:name=".FriendsListActivity" />
         <activity
             android:name=".TabHomeActivity"
