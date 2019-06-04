@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +35,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 
@@ -56,6 +60,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private View view;
     private int profilePhotoCode = 1;
     private int profileOptionsSettingsCode = 2;
+
+    PostAdapter postAdapter;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -102,18 +108,80 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         Toast.makeText(getActivity(), "Cargando perfil...",Toast.LENGTH_LONG).show();
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
         Button buttonFriends = view.findViewById(R.id.buttonProfileFriends);
         buttonFriends.setOnClickListener(this);
+
         Button buttonProfileOptions = view.findViewById(R.id.buttonProfileOptions);
         buttonProfileOptions.setOnClickListener(this);
+
         ImageView imageViewProfilePhoto = view.findViewById(R.id.imageViewProfilePhoto);
         imageViewProfilePhoto.setOnClickListener(this);
+
         Button buttonPhotos = view.findViewById(R.id.buttonProfilePhotos);
         buttonPhotos.setOnClickListener(this);
+
+        postAdapter = new PostAdapter();
+        RecyclerView recyclerViewProfile = view.findViewById(R.id.recyclerViewProfile);
+        recyclerViewProfile.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerViewProfile.setAdapter(this.postAdapter);
+
+
         ReadTest(view);
+        // Consultar posts del usuario
+        this.GetCurrentUserPosts();
         this.view = view;
 
         return view;
+    }
+
+
+    public void GetCurrentUserPosts(){
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String userId = user.getUid();
+        databaseReference.child("posts").child(userId).orderByKey().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                Map<String,Object> postMap = (Map<String,Object>) dataSnapshot.getValue();
+
+                String userNamePost = (String)postMap.get("name");
+                String lastNamePost = (String)postMap.get("lastName");
+                String type = (String)postMap.get("type");
+                String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
+                String text = (String) postMap.get("text");
+
+                ImageView imageView = getActivity().findViewById(R.id.imageViewProfilePhoto);
+                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
+                Post post = new Post(userNamePost,lastNamePost,type,bitmap,text,null);
+                postAdapter.AddPost(post);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void ReadTest(final View view){
@@ -316,6 +384,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         super.onHiddenChanged(hidden);
         if(!hidden && this.view != null){
             this.ReadTest(view);
+            this.postAdapter.clearItems();
+            this.GetCurrentUserPosts();
 
         }
     }

@@ -36,7 +36,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
     @Override
     public ViewHolderPost onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.user_thumbnail_layout,null,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.post_layout,viewGroup,false);
         return new ViewHolderPost(view);
 
     }
@@ -45,7 +45,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
     public void onBindViewHolder(@NonNull ViewHolderPost viewHolderUserPost, int i) {
 
         String name = this.postList.get(i).getUserName() + this.postList.get(i).getLastName();
-        viewHolderUserPost.textViewUserName.setText(name);
+        viewHolderUserPost.textViewPostUserName.setText(name);
         viewHolderUserPost.textViewPostText.setText(this.postList.get(i).getPostText());
 
         viewHolderUserPost.imageButtonLike.setOnClickListener(new View.OnClickListener() {
@@ -73,7 +73,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
     public class ViewHolderPost extends RecyclerView.ViewHolder  {
 
 
-        TextView textViewUserName;
+        TextView textViewPostUserName;
         TextView textViewPostText;
         ImageButton imageButtonLike;
         ImageButton imageButtonDislike;
@@ -81,7 +81,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         public ViewHolderPost(@NonNull View itemView) {
             super(itemView);
 
-            textViewUserName = itemView.findViewById(R.id.textViewPostUserName);
+            textViewPostUserName = itemView.findViewById(R.id.textViewPostUserName);
             textViewPostText = itemView.findViewById(R.id.textViewPostText);
 
             imageButtonLike = itemView.findViewById(R.id.imageButtonLike);
