@@ -43,7 +43,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     @NonNull
     @Override
     public NotificationsAdapter.ViewHolderNotifications onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.custom_layout_notifications,null,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.custom_layout_notifications,viewGroup,false);
         return new ViewHolderNotifications(view);
     }
 
@@ -108,8 +108,6 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
             textViewAction = itemView.findViewById(R.id.textViewNotificationAction);
             buttonAccept = itemView.findViewById(R.id.buttonNotificationAccept);
             buttonDecline = itemView.findViewById(R.id.buttonNotificationsDecline);
-
-
 
         }
     }

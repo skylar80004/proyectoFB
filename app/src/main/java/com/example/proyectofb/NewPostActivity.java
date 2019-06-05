@@ -72,7 +72,8 @@ public class NewPostActivity extends AppCompatActivity {
     }
 
     public Map<String, Object> getPostMap(String name, String lastName,String type,
-                                          String text,String imageUrl,String profilePhotoUrl){
+                                          String text,String imageUrl,String profilePhotoUrl,
+                                          String userId, String postId){
         Map<String,Object> postMap = new HashMap<>();
         postMap.put("name",name);
         postMap.put("lastName",lastName);
@@ -82,6 +83,8 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("text",text);
         postMap.put("imageUrl", imageUrl);
         postMap.put("profilePhotoUrl",profilePhotoUrl );
+        postMap.put("userId",userId);
+        postMap.put("postId", postId);
 
         return postMap;
 
@@ -116,7 +119,7 @@ public class NewPostActivity extends AppCompatActivity {
                     String lastName = (String)userMap.get("lastName");
                     String profilePhotoUrl = (String)userMap.get("profilePhotoUrl");
 
-                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl);
+                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,userId,newPostId);
                     databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

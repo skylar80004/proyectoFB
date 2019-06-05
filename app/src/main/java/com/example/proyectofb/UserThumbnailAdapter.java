@@ -37,7 +37,7 @@ public class UserThumbnailAdapter extends RecyclerView.Adapter<UserThumbnailAdap
     @Override
     public ViewHolderUserThumbnail onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.user_thumbnail_layout,null,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.user_thumbnail_layout,viewGroup,false);
         return new ViewHolderUserThumbnail(view);
 
     }

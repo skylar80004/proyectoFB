@@ -60,6 +60,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
     private View view;
     private int profilePhotoCode = 1;
     private int profileOptionsSettingsCode = 2;
+    private Bitmap bitmapProfilePhoto;
 
     PostAdapter postAdapter;
 
@@ -142,22 +143,24 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         final DatabaseReference databaseReference = firebaseDatabase.getReference();
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
-        String userId = user.getUid();
+        final String userId = user.getUid();
         databaseReference.child("posts").child(userId).orderByKey().addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                 Map<String,Object> postMap = (Map<String,Object>) dataSnapshot.getValue();
 
+                String postId = dataSnapshot.getKey();
                 String userNamePost = (String)postMap.get("name");
                 String lastNamePost = (String)postMap.get("lastName");
                 String type = (String)postMap.get("type");
                 String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
                 String text = (String) postMap.get("text");
+                String likes = (String) postMap.get("likes");
+                String disLikes = (String) postMap.get("dislikes");
 
-                ImageView imageView = getActivity().findViewById(R.id.imageViewProfilePhoto);
-                Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-                Post post = new Post(userNamePost,lastNamePost,type,bitmap,text,null);
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,null,
+                        likes,disLikes,userId,postId);
                 postAdapter.AddPost(post);
 
             }
@@ -165,6 +168,23 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                String key = dataSnapshot.getKey();
+
+                Map<String,Object> postMap = (Map<String,Object>) dataSnapshot.getValue();
+
+                String postId = dataSnapshot.getKey();
+                String userNamePost = (String)postMap.get("name");
+                String lastNamePost = (String)postMap.get("lastName");
+                String type = (String)postMap.get("type");
+                String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
+                String text = (String) postMap.get("text");
+                String likes = (String) postMap.get("likes");
+                String disLikes = (String) postMap.get("dislikes");
+
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,null,
+                        likes,disLikes,userId,postId);
+
+                postAdapter.UpdatePost(key,post);
             }
 
             @Override
@@ -250,6 +270,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
                     try {
                         Bitmap bitmap = imageDownloader.execute(value).get();
+                        bitmapProfilePhoto = bitmap;
                         imageView.setImageBitmap(bitmap);
                     } catch (ExecutionException e) {
                         e.printStackTrace();
@@ -287,6 +308,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getInstance().getCurrentUser();
         id = firebaseUser.getUid();
+
+        LinearLayout linearLayoutEducationProfile = view.findViewById(R.id.linearLayoutEducationProfile);
+        linearLayoutEducationProfile.removeAllViews();
 
         databaseRef.child(id).orderByValue().addChildEventListener(new ChildEventListener() {
             @Override

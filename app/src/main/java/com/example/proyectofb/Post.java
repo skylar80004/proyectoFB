@@ -10,14 +10,41 @@ public class Post {
     private Bitmap userPhoto;
     private String postText;
     private Bitmap postImage;
+    private String likes;
+    private String dislikes;
+    private String userId;
+    private String postId;
 
-    public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage) {
+    public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage,
+                String likes, String dislikes,String userId, String postId) {
+
         this.userName = userName;
         this.lastName = lastName;
         this.type = type;
         this.userPhoto = userPhoto;
         this.postText = postText;
         this.postImage = postImage;
+        this.likes = likes;
+        this.dislikes = dislikes;
+        this.userId = userId;
+        this.postId = postId;
+
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getPostId() {
+        return postId;
+    }
+
+    public String getLikes() {
+        return likes;
+    }
+
+    public String getDislikes() {
+        return dislikes;
     }
 
     public String getUserName() {
