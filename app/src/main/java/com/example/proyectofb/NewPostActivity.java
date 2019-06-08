@@ -187,7 +187,7 @@ public class NewPostActivity extends AppCompatActivity {
             FirebaseUser firebaseUser = auth.getInstance().getCurrentUser();
 
             final String id = firebaseUser.getUid();
-            String fileName = this.getFileName(this.imageUri);
+            final String fileName = this.getFileName(this.imageUri);
 
             StorageReference mStorageReference = FirebaseStorage.getInstance().getReference();
             final StorageReference photoReference = mStorageReference.child(id).child(fileName);
@@ -245,6 +245,8 @@ public class NewPostActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+
+                                        databaseReference.child("photos").child(userId).child(fileName).setValue(photoUrl);
 
 
                                     }

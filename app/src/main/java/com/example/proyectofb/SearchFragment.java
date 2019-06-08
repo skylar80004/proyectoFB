@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -63,6 +64,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     RecyclerView recyclerViewSearch;
     UserThumbnailAdapter userThumbnailAdapter;
+    PostAdapter  postAdapter;
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -101,12 +103,18 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         this.userThumbnailAdapter = new UserThumbnailAdapter();
+        this.postAdapter = new PostAdapter();
+
         this.recyclerViewSearch = view.findViewById(R.id.recyclerViewSearch);
         this.recyclerViewSearch.setLayoutManager(new LinearLayoutManager(getActivity()));
         this.recyclerViewSearch.setAdapter(this.userThumbnailAdapter);
 
+
         Button buttonSearchUsers = view.findViewById(R.id.buttonSearchUsers);
         buttonSearchUsers.setOnClickListener(this);
+
+        Button buttonSearchPost = view.findViewById(R.id.buttonSearchPosts);
+        buttonSearchPost.setOnClickListener(this);
         return view;
     }
 
@@ -123,18 +131,135 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
+
+    public void FirebaseSearchPost(final String text){
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference databaseReference = firebaseDatabase.getReference();
+        databaseReference.child("posts").orderByKey().addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                final String userIdTemporal = dataSnapshot.getKey();
+                //Toast.makeText(getContext(),userIdTemporal,Toast.LENGTH_LONG).show();
+
+                databaseReference.child("posts").child(userIdTemporal).orderByKey().addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                        Map<String,Object> postMap = (Map<String, Object>) dataSnapshot.getValue();
+                        String postText = (String)postMap.get("text");
+                        postText  = postText.toLowerCase();
+                       // Toast.makeText(getContext(),postText,Toast.LENGTH_LONG).show();
+                        if(postText.contains(text)){
+
+
+                            String postId = dataSnapshot.getKey();
+                            String userNamePost = (String)postMap.get("name");
+                            String lastNamePost = (String)postMap.get("lastName");
+                            String type = (String)postMap.get("type");
+                            String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
+                            String likes = (String) postMap.get("likes");
+                            String disLikes = (String) postMap.get("dislikes");
+                            String imageUrl = (String) postMap.get("imageUrl");
+
+
+                            ImageDownloader imageDownloader = new ImageDownloader();
+                            Bitmap bitmapProfilePhoto = null;
+                            try {
+                                bitmapProfilePhoto = imageDownloader.execute(profilePhotoUrl).get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            ImageDownloader imageDownloader2 = new ImageDownloader();
+                            Bitmap bitmapPostImage = null;
+                            try {
+                                bitmapPostImage = imageDownloader2.execute(imageUrl).get();
+                            } catch (ExecutionException e) {
+                                e.printStackTrace();
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+
+                            Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,postText,bitmapPostImage,
+                                    likes,disLikes,userIdTemporal,postId);
+
+                            postAdapter.AddPost(post);
+
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
     @Override
     public void onClick(View v) {
 
 
+        EditText editText;
+        String text;
         switch(v.getId()){
             case R.id.buttonSearchPosts:
+
+                 editText = getActivity().findViewById(R.id.editTextSearch);
+                 text = editText.getText().toString();
+                text = text.toLowerCase();
+                this.recyclerViewSearch.setAdapter(this.postAdapter);
+                this.FirebaseSearchPost(text);
                 break;
+
             case R.id.buttonSearchUsers:
 
-                EditText editText = getActivity().findViewById(R.id.editTextSearch);
+                 editText = getActivity().findViewById(R.id.editTextSearch);
 
-                String text = editText.getText().toString();
+                 text = editText.getText().toString();
                 text = text.toLowerCase();
                 Toast.makeText(getActivity(), "Buscando usuarios...", Toast.LENGTH_LONG).show();
                 this.FireBaseSearchUser(text);

@@ -70,7 +70,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         ReadTest();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         this.GetCurrentUserPosts();
     }
 
