@@ -287,6 +287,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String likes = (String) postMap.get("likes");
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
+                String totalTime = (String) postMap.get("totalTime");
 
 
                 ImageDownloader imageDownloader = new ImageDownloader();
@@ -309,9 +310,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
 
-
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId);
+                        likes,disLikes,userId,postId,totalTime);
                 postAdapter.AddPost(post);
 
             }
@@ -332,6 +332,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String likes = (String) postMap.get("likes");
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
+                String totalTime = (String) postMap.get("totalTime");
 
 
                 ImageDownloader imageDownloader = new ImageDownloader();
@@ -354,7 +355,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId);
+                        likes,disLikes,userId,postId,totalTime);
 
                 postAdapter.UpdatePost(key,post);
             }

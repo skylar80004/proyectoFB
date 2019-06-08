@@ -162,6 +162,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                             String likes = (String) postMap.get("likes");
                             String disLikes = (String) postMap.get("dislikes");
                             String imageUrl = (String) postMap.get("imageUrl");
+                            String totalTime = (String) postMap.get("totalTime");
 
 
                             ImageDownloader imageDownloader = new ImageDownloader();
@@ -185,7 +186,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                             }
 
                             Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,postText,bitmapPostImage,
-                                    likes,disLikes,userIdTemporal,postId);
+                                    likes,disLikes,userIdTemporal,postId,totalTime);
 
                             postAdapter.AddPost(post);
 

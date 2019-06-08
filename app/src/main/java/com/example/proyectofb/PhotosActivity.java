@@ -61,7 +61,7 @@ public class PhotosActivity extends AppCompatActivity {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
             String userId = firebaseUser.getUid();
-            
+
             viewPager = findViewById(R.id.viewPagerPhotos);
             ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
             viewPagerAdapter.setUserId(userId);

@@ -37,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.sql.SQLTransactionRollbackException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -85,7 +86,7 @@ public class NewPostActivity extends AppCompatActivity {
 
     public Map<String, Object> getPostMap(String name, String lastName,String type,
                                           String text,String imageUrl,String profilePhotoUrl,
-                                          String userId, String postId){
+                                          String userId, String postId,String totalTime){
         Map<String,Object> postMap = new HashMap<>();
         postMap.put("name",name);
         postMap.put("lastName",lastName);
@@ -97,6 +98,7 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("profilePhotoUrl",profilePhotoUrl );
         postMap.put("userId",userId);
         postMap.put("postId", postId);
+        postMap.put("totalTime",totalTime);
 
         return postMap;
 
@@ -128,7 +130,20 @@ public class NewPostActivity extends AppCompatActivity {
                     String lastName = (String)userMap.get("lastName");
                     String profilePhotoUrl = (String)userMap.get("profilePhotoUrl");
 
-                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,userId,newPostId);
+                    Calendar now = Calendar.getInstance();
+                    int year = now.get(Calendar.YEAR);
+                    int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+                    int day = now.get(Calendar.DAY_OF_MONTH);
+                    int hour = now.get(Calendar.HOUR_OF_DAY);
+                    int minute = now.get(Calendar.MINUTE);
+                    int second = now.get(Calendar.SECOND);
+
+                    int totalTime  = year+ month + day+hour+minute+second;
+
+                    String totalTimeString = String.valueOf(totalTime);
+
+
+                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,userId,newPostId,totalTimeString);
                     databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -230,7 +245,22 @@ public class NewPostActivity extends AppCompatActivity {
                                         String lastName = (String)userMap.get("lastName");
                                         String profilePhotoUrl = (String)userMap.get("profilePhotoUrl");
 
-                                        Map<String, Object> postMap = getPostMap(name, lastName,"image",text,photoUrl,profilePhotoUrl,userId,newPostId);
+                                        // Marca de tiempo entera para ordenar el array
+
+
+                                        Calendar now = Calendar.getInstance();
+                                        int year = now.get(Calendar.YEAR);
+                                        int month = now.get(Calendar.MONTH) + 1; // Note: zero based!
+                                        int day = now.get(Calendar.DAY_OF_MONTH);
+                                        int hour = now.get(Calendar.HOUR_OF_DAY);
+                                        int minute = now.get(Calendar.MINUTE);
+                                        int second = now.get(Calendar.SECOND);
+
+                                        int totalTime  = year+ month + day+hour+minute+second;
+                                        String totalTimeString = String.valueOf(totalTime);
+
+                                        Map<String, Object> postMap = getPostMap(name, lastName,"image",text,photoUrl,
+                                                profilePhotoUrl,userId,newPostId,totalTimeString);
                                         databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

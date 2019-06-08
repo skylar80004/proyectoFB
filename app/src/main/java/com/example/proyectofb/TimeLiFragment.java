@@ -121,6 +121,7 @@ public class TimeLiFragment extends Fragment {
                         String likes = (String) postMap.get("likes");
                         String disLikes = (String) postMap.get("dislikes");
                         String imageUrl = (String) postMap.get("imageUrl");
+                        String totalTime = (String) postMap.get("totalTime");
 
 
                         ImageDownloader imageDownloader = new ImageDownloader();
@@ -144,7 +145,7 @@ public class TimeLiFragment extends Fragment {
                         }
 
                         Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                                likes,disLikes,friendId,postId);
+                                likes,disLikes,friendId,postId,totalTime);
 
                         postAdapter.AddPost(post);
                     }

@@ -14,9 +14,10 @@ public class Post {
     private String dislikes;
     private String userId;
     private String postId;
+    private String totalTime;
 
     public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage,
-                String likes, String dislikes,String userId, String postId) {
+                String likes, String dislikes,String userId, String postId,String totalTime) {
 
         this.userName = userName;
         this.lastName = lastName;
@@ -28,6 +29,7 @@ public class Post {
         this.dislikes = dislikes;
         this.userId = userId;
         this.postId = postId;
+        this.totalTime = totalTime;
     }
 
     public String getUserId() {

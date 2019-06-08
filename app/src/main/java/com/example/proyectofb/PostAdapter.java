@@ -55,6 +55,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         this.notifyDataSetChanged();
     }
 
+    public void OrderChronogically(){
+
+    }
+
     public void clearItems(){
         this.postList.clear();
         this.notifyDataSetChanged();
