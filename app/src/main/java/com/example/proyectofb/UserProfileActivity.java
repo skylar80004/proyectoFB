@@ -232,6 +232,8 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
             case R.id.buttonProfilePhotos2:
                 Intent intentProfilePhotos = new Intent(this, PhotosActivity.class);
+                intentProfilePhotos.putExtra("from", "otherProfile");
+                intentProfilePhotos.putExtra("userId",userID);
                 startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonUserProfileSendFriend:

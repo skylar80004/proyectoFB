@@ -51,13 +51,34 @@ public class PhotosActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photos);
-        viewPager = findViewById(R.id.viewPagerPhotos);
         Toast.makeText(getApplicationContext(),"Cargando Fotos...", Toast.LENGTH_LONG).show();
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
-        viewPager.setAdapter(viewPagerAdapter);
-        uploadPhoto = null;
 
+        Intent intent = getIntent();
+        String from = intent.getStringExtra("from");
+        if(from.equals("currentProfile")){
+
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+            String userId = firebaseUser.getUid();
+            
+            viewPager = findViewById(R.id.viewPagerPhotos);
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+            viewPagerAdapter.setUserId(userId);
+            viewPager.setAdapter(viewPagerAdapter);
+
+
+        }
+        else{
+            String userId = intent.getStringExtra("userId");
+            viewPager = findViewById(R.id.viewPagerPhotos);
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this);
+            viewPagerAdapter.setUserId(userId);
+            viewPager.setAdapter(viewPagerAdapter);
+
+        }
+
+        uploadPhoto = null;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 

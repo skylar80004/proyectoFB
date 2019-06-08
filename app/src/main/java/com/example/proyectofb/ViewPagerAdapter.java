@@ -46,13 +46,12 @@ public class ViewPagerAdapter extends PagerAdapter{
     private int position = 0 ;
     private boolean fromFullScreen = false;
     private boolean validateFull = false;
+    String userId;
 
     public ViewPagerAdapter(Context context){
         this.context = context;
-        this.FireBaseGetAllPhotos();
         this.fromFullScreen = false;
     }
-
     public ViewPagerAdapter(Context context, int position){
         this.context = context;
         this.position = position;
@@ -61,6 +60,10 @@ public class ViewPagerAdapter extends PagerAdapter{
 
     }
 
+    public void setUserId(String userId){
+        this.userId = userId;
+        this.FireBaseGetAllPhotos();
+    }
 
     @Override
     public int getCount() {
@@ -138,9 +141,7 @@ public class ViewPagerAdapter extends PagerAdapter{
 
     public void FireBaseGetAllPhotos(){
 
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser fireBaseUser = mAuth.getCurrentUser();
-        String id = fireBaseUser.getUid();
+        String id = this.userId;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference databaseRef = database.getReference("photos");

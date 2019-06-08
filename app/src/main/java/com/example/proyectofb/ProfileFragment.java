@@ -420,6 +420,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.buttonProfilePhotos:
                 Intent intentProfilePhotos = new Intent(getActivity(), PhotosActivity.class);
+                intentProfilePhotos.putExtra("from","currentProfile");
                 startActivity(intentProfilePhotos);
                 break;
             case R.id.buttonProfileOptions:
