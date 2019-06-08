@@ -100,9 +100,6 @@ public class NewPostActivity extends AppCompatActivity {
         final String userId = user.getUid();
         final String newPostId = UUID.randomUUID().toString();
 
-
-
-
         // Obtener datos del usuario que realiza el post
 
         final UserBasicData userBasicData = new UserBasicData();
@@ -126,6 +123,11 @@ public class NewPostActivity extends AppCompatActivity {
 
                             if(task.isSuccessful()){
                                 Toast.makeText(getApplicationContext(), "Se ha realizado la publicación", Toast.LENGTH_LONG).show();
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(), "No se ha realizado la publicación", Toast.LENGTH_LONG).show();
+
+
                             }
                         }
                     });
@@ -155,10 +157,10 @@ public class NewPostActivity extends AppCompatActivity {
             }
         });
 
-
-
-
-
+        Map<String,Object> dummyComment = new HashMap<>();
+        dummyComment.put("dummy1", "dummy1");
+        dummyComment.put("dummy2", "dummy2");
+        databaseReference.child("comments").child(newPostId).child("dummy").setValue(dummyComment);
     }
 
     public void OnClickButtonMakePost(View view){

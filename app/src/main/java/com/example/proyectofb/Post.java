@@ -28,7 +28,6 @@ public class Post {
         this.dislikes = dislikes;
         this.userId = userId;
         this.postId = postId;
-
     }
 
     public String getUserId() {

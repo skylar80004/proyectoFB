@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewPostActivity"></activity>
+        <activity android:name=".CommentsActivity"></activity>
+        <activity android:name=".NewPostActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".FullScreenPhotosActivity" />
         <activity android:name=".PhotosActivity" />
@@ -18,7 +19,7 @@
         <activity android:name=".ProfilePhotoActivity" />
         <activity
             android:name=".ProfileSettingsActivity"
-            android:windowSoftInputMode="adjustNothing"></activity>
+            android:windowSoftInputMode="adjustNothing" />
         <activity android:name=".FriendsListActivity" />
         <activity
             android:name=".TabHomeActivity"

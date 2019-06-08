@@ -1,6 +1,7 @@
 package com.example.proyectofb;
 
 import android.content.Context;
+import android.content.Intent;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -206,6 +207,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             }
         });
 
+        viewHolderUserPost.buttonComments.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), CommentsActivity.class);
+                intent.putExtra("type","post");
+                intent.putExtra("postId", postList.get(position).getPostId() );
+                v.getContext().startActivity(intent);
+
+
+
+
+            }
+        });
+
     }
 
     @Override
@@ -235,6 +251,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             textViewPostLikes = itemView.findViewById(R.id.textViewPostLikes);
             textViewPostDislikes = itemView.findViewById(R.id.textViewPostDislikes);
 
+            buttonComments = itemView.findViewById(R.id.buttonPostComments);
 
 
 
