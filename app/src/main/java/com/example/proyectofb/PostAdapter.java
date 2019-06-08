@@ -2,6 +2,7 @@ package com.example.proyectofb;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -182,6 +184,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         viewHolderUserPost.textViewPostText.setText(this.postList.get(i).getPostText());
         viewHolderUserPost.textViewPostLikes.setText(this.postList.get(i).getLikes());
         viewHolderUserPost.textViewPostDislikes.setText(this.postList.get(i).getDislikes());
+        viewHolderUserPost.imageViewPostUserPhoto.setImageBitmap(this.postList.get(i).getUserPhoto());
 
         final int position = i;
         viewHolderUserPost.imageButtonLike.setOnClickListener(new View.OnClickListener() {
@@ -216,11 +219,22 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 intent.putExtra("postId", postList.get(position).getPostId() );
                 v.getContext().startActivity(intent);
 
-
-
-
             }
         });
+
+        String type = this.postList.get(i).getType();
+        if(type.equals("image")){
+
+            ViewGroup.LayoutParams params = viewHolderUserPost.textViewPostText.getLayoutParams();
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            viewHolderUserPost.textViewPostText.setLayoutParams(params);
+
+
+            viewHolderUserPost.imageViewPostImage.setVisibility(View.VISIBLE);
+            Bitmap bitmap = this.postList.get(i).getPostImage();
+            viewHolderUserPost.imageViewPostImage.setImageBitmap(bitmap);
+
+        }
 
     }
 
@@ -239,6 +253,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         Button buttonComments;
         TextView textViewPostLikes;
         TextView textViewPostDislikes;
+        ImageView imageViewPostImage;
+        ImageView imageViewPostUserPhoto;
         public ViewHolderPost(@NonNull View itemView) {
             super(itemView);
 
@@ -252,6 +268,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             textViewPostDislikes = itemView.findViewById(R.id.textViewPostDislikes);
 
             buttonComments = itemView.findViewById(R.id.buttonPostComments);
+            imageViewPostImage = itemView.findViewById(R.id.imageViewPostImage);
+            imageViewPostUserPhoto = itemView.findViewById(R.id.imageViewPostUserPhoto);
 
 
 

@@ -115,6 +115,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary"
+        android:onClick="OnClickButtonSelectImage"
         android:text="Seleccionar Imagen"
         android:textColor="@color/colorText"
         app:layout_constraintEnd_toEndOf="parent"

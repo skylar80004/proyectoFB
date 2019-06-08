@@ -158,8 +158,31 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 String text = (String) postMap.get("text");
                 String likes = (String) postMap.get("likes");
                 String disLikes = (String) postMap.get("dislikes");
+                String imageUrl = (String) postMap.get("imageUrl");
 
-                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,null,
+
+                ImageDownloader imageDownloader = new ImageDownloader();
+                Bitmap bitmapProfilePhoto = null;
+                try {
+                    bitmapProfilePhoto = imageDownloader.execute(profilePhotoUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                ImageDownloader imageDownloader2 = new ImageDownloader();
+                Bitmap bitmapPostImage = null;
+                try {
+                    bitmapPostImage = imageDownloader2.execute(imageUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
                         likes,disLikes,userId,postId);
                 postAdapter.AddPost(post);
 
@@ -180,8 +203,29 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 String text = (String) postMap.get("text");
                 String likes = (String) postMap.get("likes");
                 String disLikes = (String) postMap.get("dislikes");
+                String imageUrl = (String) postMap.get("imageUrl");
 
-                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,null,
+
+                ImageDownloader imageDownloader = new ImageDownloader();
+                Bitmap bitmapProfilePhoto = null;
+                try {
+                    bitmapProfilePhoto = imageDownloader.execute(profilePhotoUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                ImageDownloader imageDownloader2 = new ImageDownloader();
+                Bitmap bitmapPostImage = null;
+                try {
+                    bitmapPostImage = imageDownloader2.execute(imageUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
                         likes,disLikes,userId,postId);
 
                 postAdapter.UpdatePost(key,post);
