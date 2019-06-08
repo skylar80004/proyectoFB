@@ -94,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                               // Toast.makeText(context, "Se dio like al post", Toast.LENGTH_LONG).show();
+                                // Toast.makeText(context, "Se dio like al post", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -146,7 +146,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                           //     Toast.makeText(context, "Se dio dislike al post", Toast.LENGTH_LONG).show();
+                                //     Toast.makeText(context, "Se dio dislike al post", Toast.LENGTH_LONG).show();
                             }
                         }
                     });
@@ -206,7 +206,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 String userId = postList.get(position).getUserId();
                 String postId = postList.get(position).getPostId();
                 FirebaseDislikePost(userId,postId,v.getContext());
-                
+
             }
         });
 
