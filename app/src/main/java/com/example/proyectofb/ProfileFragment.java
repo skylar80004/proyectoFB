@@ -246,6 +246,9 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
 
             }
         });
+
+        // Ordenan array
+        // despues de ordenar, añadir al adapter
     }
 
     public void ReadTest(final View view){

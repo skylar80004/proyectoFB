@@ -236,6 +236,30 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         }
 
+        final String id = this.postList.get(i).getUserId();
+        viewHolderUserPost.textViewPostUserName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra("userID",id );
+                v.getContext().startActivity(intent);
+
+            }
+        });
+
+        viewHolderUserPost.imageViewPostUserPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), UserProfileActivity.class);
+                intent.putExtra("userID",id );
+                v.getContext().startActivity(intent);
+
+
+            }
+        });
+
     }
 
     @Override
