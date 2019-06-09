@@ -10,7 +10,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.proyectofb.ui.main.UserThumbnail;
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,6 +36,7 @@ public class FriendsListActivity extends AppCompatActivity {
 
     private String userID;
     private UserThumbnailAdapter userThumbnailAdapter;
+    Button commonFriends;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +44,141 @@ public class FriendsListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_friends_list);
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
+        commonFriends = findViewById(R.id.buttonFriendsListInCommon);
 
         RecyclerView recyclerView = findViewById(R.id.recyclerViewFriends2);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         this.userThumbnailAdapter = new UserThumbnailAdapter();
         recyclerView.setAdapter(this.userThumbnailAdapter);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        commonFriends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                userThumbnailAdapter.clearItems();
+                getInCommonFriends();
+            }
+        });
+    }
+
+    private void getInCommonFriends() {
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        final String idUser = user.getUid();
+        final String idFriend = this.userID;
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference reference = database.getReference();
+
+        reference.child("friends").child(idFriend).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                final String hisFriend = dataSnapshot.getKey();
+
+                reference.child("friends").child(idUser).addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        final String ownFriend = dataSnapshot.getKey();
+
+                        if(hisFriend.equals(ownFriend)){
+                            Log.d("TAG", "Common friend key founded = " + hisFriend + " is equal to " + ownFriend);
+
+                            reference.child("users").orderByKey().addChildEventListener(new ChildEventListener() {
+                                @Override
+                                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                    String temporalUserId = dataSnapshot.getKey();
+                                    if (temporalUserId.equals(ownFriend)) {
+
+                                        Map<String, Object> userMap = (Map<String, Object>) dataSnapshot.getValue();
+                                        String name = (String) userMap.get("name");
+                                        String lastName = (String) userMap.get("lastName");
+                                        String photoUrl = (String) userMap.get("profilePhotoUrl");
+                                        ImageDownloader imageDownloader = new ImageDownloader();
+                                        Bitmap bitmap = null;
+                                        try {
+                                            bitmap = imageDownloader.execute(photoUrl).get();
+                                        } catch (ExecutionException e) {
+                                            e.printStackTrace();
+                                        } catch (InterruptedException e) {
+                                            e.printStackTrace();
+                                        }
+                                        UserThumbnail userThumbnail = new UserThumbnail(name, lastName, bitmap, temporalUserId);
+                                        userThumbnailAdapter.AddUserThumbnail(userThumbnail);
+                                    }
+                                }
+
+                                @Override
+                                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                                }
+
+                                @Override
+                                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
+                        }else{
+                            Log.d("TAG", "!!!!NEXT friend key ");
+                            Log.d("TAG", "His friend key = " + hisFriend);
+                            Log.d("TAG", "My friend key = " + ownFriend);
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -63,7 +195,7 @@ public class FriendsListActivity extends AppCompatActivity {
     }
 
     public void FirebaseGetAllFriendsCurrentUser() {
-
+        userThumbnailAdapter.clearItems();
         final String id = this.userID;
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
