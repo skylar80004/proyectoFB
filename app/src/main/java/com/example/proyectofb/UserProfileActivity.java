@@ -289,6 +289,12 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
 
+                String year = (String) postMap.get("year");
+                String month = (String) postMap.get("month");
+                String day = (String) postMap.get("day");
+                String hour = (String) postMap.get("hour");
+                String minute = (String) postMap.get("minute");
+
 
                 ImageDownloader imageDownloader = new ImageDownloader();
                 Bitmap bitmapProfilePhoto = null;
@@ -311,7 +317,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
                 postAdapter.AddPost(post);
 
             }
@@ -334,6 +340,12 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
 
+                String year = (String) postMap.get("year");
+                String month = (String) postMap.get("month");
+                String day = (String) postMap.get("day");
+                String hour = (String) postMap.get("hour");
+                String minute = (String) postMap.get("minute");
+
 
                 ImageDownloader imageDownloader = new ImageDownloader();
                 Bitmap bitmapProfilePhoto = null;
@@ -355,7 +367,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
 
                 postAdapter.UpdatePost(key,post);
             }

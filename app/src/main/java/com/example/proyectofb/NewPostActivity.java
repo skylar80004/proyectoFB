@@ -282,7 +282,7 @@ public class NewPostActivity extends AppCompatActivity {
 
                                         Map<String, Object> postMap = getPostMap(name, lastName,"image",text,photoUrl,
                                                 profilePhotoUrl,userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString);
-                                        
+
                                         databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
