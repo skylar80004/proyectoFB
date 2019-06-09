@@ -51,7 +51,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         }
     }
     public void AddPost(Post post){
+
         this.postList.add(post);
+        QuickSort quickSort = new QuickSort(this.postList);
+        quickSort.sort(0,this.postList.size() - 1);
         this.notifyDataSetChanged();
     }
 
@@ -183,7 +186,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPost viewHolderUserPost, int i) {
 
-        String name = this.postList.get(i).getUserName() + this.postList.get(i).getLastName();
+        String name = this.postList.get(i).getUserName() + " " + this.postList.get(i).getLastName();
         viewHolderUserPost.textViewPostUserName.setText(name);
         viewHolderUserPost.textViewPostText.setText(this.postList.get(i).getPostText());
         viewHolderUserPost.textViewPostLikes.setText(this.postList.get(i).getLikes());
@@ -276,11 +279,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         TextView textViewPostUserName;
         TextView textViewPostText;
+        TextView textViewPostLikes;
+        TextView textViewPostDislikes;
+        TextView textViewHumanDate;
         ImageButton imageButtonLike;
         ImageButton imageButtonDislike;
         Button buttonComments;
-        TextView textViewPostLikes;
-        TextView textViewPostDislikes;
+
         ImageView imageViewPostImage;
         ImageView imageViewPostUserPhoto;
         public ViewHolderPost(@NonNull View itemView) {

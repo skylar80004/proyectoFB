@@ -32,6 +32,8 @@ public class Post {
         this.totalTime = totalTime;
     }
 
+    public String getTotalTime(){ return totalTime; }
+
     public String getUserId() {
         return userId;
     }
