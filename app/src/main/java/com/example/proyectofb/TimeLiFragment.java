@@ -123,6 +123,13 @@ public class TimeLiFragment extends Fragment {
                         String imageUrl = (String) postMap.get("imageUrl");
                         String totalTime = (String) postMap.get("totalTime");
 
+                        String year = (String) postMap.get("year");
+                        String month = (String) postMap.get("month");
+                        String day = (String) postMap.get("day");
+                        String hour = (String) postMap.get("hour");
+                        String minute = (String) postMap.get("minute");
+
+
 
                         ImageDownloader imageDownloader = new ImageDownloader();
                         Bitmap bitmapProfilePhoto = null;
@@ -145,7 +152,7 @@ public class TimeLiFragment extends Fragment {
                         }
 
                         Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                                likes,disLikes,friendId,postId,totalTime);
+                                likes,disLikes,friendId,postId,totalTime,year,month,day,hour,minute);
 
                         postAdapter.AddPost(post);
                     }

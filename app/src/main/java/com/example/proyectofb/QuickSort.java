@@ -6,6 +6,8 @@ public class QuickSort {
 
     ArrayList<Post> postList;
 
+
+
    public QuickSort(ArrayList postList){
        this.postList = postList;
    }
@@ -16,29 +18,38 @@ public class QuickSort {
         smaller (smaller than pivot) to left of
         pivot and all greater elements to right
         of pivot */
-    int partition(int arr[], int low, int high)
+    int partition( int low, int high)
     {
-        int pivot = arr[high];
+
+        String pivotString = this.postList.get(high).getTotalTime();
+        int pivot = Integer.parseInt(pivotString);
+
         int i = (low-1); // index of smaller element
         for (int j=low; j<high; j++)
         {
             // If current element is smaller than or
             // equal to pivot
-            if (arr[j] <= pivot)
+            String jString = this.postList.get(j).getTotalTime();
+            int jValue = Integer.parseInt(jString);
+
+            if ( jValue <= pivot)
             {
                 i++;
 
                 // swap arr[i] and arr[j]
-                int temp = arr[i];
-                arr[i] = arr[j];
-                arr[j] = temp;
+
+
+                Post temp = this.postList.get(i);
+                this.postList.set(i,this.postList.get(j));
+                this.postList.set(j,temp);
             }
         }
 
         // swap arr[i+1] and arr[high] (or pivot)
-        int temp = arr[i+1];
-        arr[i+1] = arr[high];
-        arr[high] = temp;
+        Post temp = this.postList.get(i+1);
+        //int temp = arr[i+1];
+        this.postList.set(i+1,this.postList.get(high));
+        this.postList.set(high,temp);
 
         return i+1;
     }
@@ -48,18 +59,18 @@ public class QuickSort {
       arr[] --> Array to be sorted,
       low  --> Starting index,
       high  --> Ending index */
-    void sort(int arr[], int low, int high)
+    void sort( int low, int high)
     {
         if (low < high)
         {
             /* pi is partitioning index, arr[pi] is
               now at right place */
-            int pi = partition(arr, low, high);
+            int pi = partition(low, high);
 
             // Recursively sort elements before
             // partition and after partition
-            sort(arr, low, pi-1);
-            sort(arr, pi+1, high);
+            sort( low, pi-1);
+            sort( pi+1, high);
         }
     }
 

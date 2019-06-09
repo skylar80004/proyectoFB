@@ -86,7 +86,9 @@ public class NewPostActivity extends AppCompatActivity {
 
     public Map<String, Object> getPostMap(String name, String lastName,String type,
                                           String text,String imageUrl,String profilePhotoUrl,
-                                          String userId, String postId,String totalTime){
+                                          String userId, String postId,String totalTime,
+                                          String year, String month, String day, String hour,
+                                          String minute){
         Map<String,Object> postMap = new HashMap<>();
         postMap.put("name",name);
         postMap.put("lastName",lastName);
@@ -99,6 +101,12 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("userId",userId);
         postMap.put("postId", postId);
         postMap.put("totalTime",totalTime);
+
+        postMap.put("year", year);
+        postMap.put("month", month);
+        postMap.put("day", day);
+        postMap.put("hour", hour);
+        postMap.put("minute", minute);
 
         return postMap;
 
@@ -141,9 +149,16 @@ public class NewPostActivity extends AppCompatActivity {
                     int totalTime  = year+ month + day+hour+minute+second;
 
                     String totalTimeString = String.valueOf(totalTime);
+                    String yearString = String.valueOf(year);
+                    String monthString = String.valueOf(month);
+                    String dayString = String.valueOf(day);
+                    String hourString = String.valueOf(hour);
+                    String minuteString = String.valueOf(minute);
 
 
-                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,userId,newPostId,totalTimeString);
+                    Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,
+                            userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString);
+
                     databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -259,8 +274,15 @@ public class NewPostActivity extends AppCompatActivity {
                                         int totalTime  = year+ month + day+hour+minute+second;
                                         String totalTimeString = String.valueOf(totalTime);
 
+                                        String yearString = String.valueOf(year);
+                                        String monthString = String.valueOf(month);
+                                        String dayString = String.valueOf(day);
+                                        String hourString = String.valueOf(hour);
+                                        String minuteString = String.valueOf(minute);
+
                                         Map<String, Object> postMap = getPostMap(name, lastName,"image",text,photoUrl,
-                                                profilePhotoUrl,userId,newPostId,totalTimeString);
+                                                profilePhotoUrl,userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString);
+
                                         databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {

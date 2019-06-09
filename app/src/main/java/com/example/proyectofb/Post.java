@@ -16,8 +16,16 @@ public class Post {
     private String postId;
     private String totalTime;
 
+    String year;
+    String month;
+    String day;
+    String hour;
+    String minute;
+
+
     public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage,
-                String likes, String dislikes,String userId, String postId,String totalTime) {
+                String likes, String dislikes,String userId, String postId,String totalTime,
+                String year, String month,String day,String hour, String minute) {
 
         this.userName = userName;
         this.lastName = lastName;
@@ -30,7 +38,34 @@ public class Post {
         this.userId = userId;
         this.postId = postId;
         this.totalTime = totalTime;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour  = hour;
+        this.minute = minute;
     }
+
+    public String getYear() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public String getMinute() {
+        return minute;
+    }
+
+    public String getTotalTime(){ return totalTime; }
 
     public String getUserId() {
         return userId;

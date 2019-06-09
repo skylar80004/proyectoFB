@@ -25,12 +25,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Map;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost> {
 
 
-    ArrayList<Post> postList;
+    public ArrayList<Post> postList;
 
     public PostAdapter(){
         this.postList = new ArrayList<>();
@@ -51,7 +52,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         }
     }
     public void AddPost(Post post){
+
         this.postList.add(post);
+        QuickSort quickSort = new QuickSort(this.postList);
+        quickSort.sort(0,this.postList.size()-1);
         this.notifyDataSetChanged();
     }
 
@@ -180,16 +184,116 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         });
     }
 
+
+    public String getPostHoursHumanFormat(Post post){
+
+        Calendar now = Calendar.getInstance();
+        int currentYear = now.get(Calendar.YEAR);
+        int currentMonth = now.get(Calendar.MONTH) + 1; // Note: zero based!
+        int currentDay = now.get(Calendar.DAY_OF_MONTH);
+        int currentHour = now.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = now.get(Calendar.MINUTE);
+
+        String postYearString = post.getYear();
+        String postMonthString = post.getMonth();
+        String postDayString = post.getDay();
+        String postHourString = post.getHour();
+        String postMinuteString = post.getMinute();
+
+        int postYear = Integer.valueOf(postYearString);
+        int postMonth = Integer.valueOf(postMonthString);
+        int postDay = Integer.valueOf(postDayString);
+        int postHour = Integer.valueOf(postHourString);
+        int postMinute = Integer.valueOf(postMinuteString);
+
+        if(currentYear > postYear){
+
+            int yearsAgo = Math.abs(currentYear - postYear);
+            if(yearsAgo == 1){
+                return "Hace 1 año";
+            }
+            else{
+                return "Hace " + String.valueOf(yearsAgo) + " años";
+            }
+        }
+        else{
+
+            if(currentMonth > postMonth){
+
+                int monthsAgo = Math.abs(currentMonth - postMonth);
+                if(monthsAgo == 1){
+                    return "Hace 1 mes";
+
+                }
+                else{
+                    return "Hace " + String.valueOf(monthsAgo) + " meses";
+
+                }
+            }
+
+            else{
+
+                if(currentDay > postDay){
+
+
+                    int daysAgo = Math.abs(currentDay - postDay);
+                    if(daysAgo == 1){
+                        return "Ayer";
+                    }
+                    else{
+                        return "Hace " + String.valueOf(daysAgo) + " dias";
+                    }
+                }
+                else{
+
+
+                    if(currentHour > postHour){
+
+                        int hoursAgo = Math.abs(currentHour - postHour);
+                        if(hoursAgo == 1){
+                            return "Hace 1 hora";
+                        }
+                        else{
+                            return "Hace " + String.valueOf(hoursAgo) + " horas";
+                        }
+                    }
+                    else{
+
+                        if(currentMinute > postMinute){
+
+                            int minutesAgo = Math.abs(currentMinute - postMinute);
+                            if(minutesAgo == 1){
+                                return "Hace 1 minuto";
+                            }
+                            else{
+                                return "Hace " + String.valueOf(minutesAgo) + "minutos";
+                            }
+                        }
+                        else{
+                            return "Hace un momento";
+                        }
+
+                    }
+
+
+                }
+
+            }
+        }
+
+
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPost viewHolderUserPost, int i) {
 
-        String name = this.postList.get(i).getUserName() + this.postList.get(i).getLastName();
+        String name = this.postList.get(i).getUserName() + " " + this.postList.get(i).getLastName();
         viewHolderUserPost.textViewPostUserName.setText(name);
         viewHolderUserPost.textViewPostText.setText(this.postList.get(i).getPostText());
         viewHolderUserPost.textViewPostLikes.setText(this.postList.get(i).getLikes());
         viewHolderUserPost.textViewPostDislikes.setText(this.postList.get(i).getDislikes());
         viewHolderUserPost.imageViewPostUserPhoto.setImageBitmap(this.postList.get(i).getUserPhoto());
-
+        viewHolderUserPost.textViewPostHours.setText(this.getPostHoursHumanFormat(this.postList.get(i)));
         final int position = i;
         viewHolderUserPost.imageButtonLike.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -276,11 +380,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         TextView textViewPostUserName;
         TextView textViewPostText;
+        TextView textViewPostLikes;
+        TextView textViewPostDislikes;
+        TextView textViewPostHours;
         ImageButton imageButtonLike;
         ImageButton imageButtonDislike;
         Button buttonComments;
-        TextView textViewPostLikes;
-        TextView textViewPostDislikes;
+
         ImageView imageViewPostImage;
         ImageView imageViewPostUserPhoto;
         public ViewHolderPost(@NonNull View itemView) {
@@ -298,6 +404,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             buttonComments = itemView.findViewById(R.id.buttonPostComments);
             imageViewPostImage = itemView.findViewById(R.id.imageViewPostImage);
             imageViewPostUserPhoto = itemView.findViewById(R.id.imageViewPostUserPhoto);
+
+            textViewPostHours = itemView.findViewById(R.id.textViewPostHours);
 
 
 
