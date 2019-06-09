@@ -30,7 +30,7 @@ import java.util.Map;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost> {
 
 
-    ArrayList<Post> postList;
+    public ArrayList<Post> postList;
 
     public PostAdapter(){
         this.postList = new ArrayList<>();
@@ -54,7 +54,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         this.postList.add(post);
         QuickSort quickSort = new QuickSort(this.postList);
-        quickSort.sort(0,this.postList.size() - 1);
+        quickSort.sort(0,this.postList.size()-1);
         this.notifyDataSetChanged();
     }
 

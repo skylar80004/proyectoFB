@@ -16,6 +16,13 @@ public class Post {
     private String postId;
     private String totalTime;
 
+    String year;
+    String month;
+    String day;
+    String hour;
+    String minute;
+
+
     public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage,
                 String likes, String dislikes,String userId, String postId,String totalTime) {
 
