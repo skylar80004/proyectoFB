@@ -45,6 +45,26 @@ public class Post {
         this.minute = minute;
     }
 
+    public String getYear() {
+        return year;
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public String getMinute() {
+        return minute;
+    }
+
     public String getTotalTime(){ return totalTime; }
 
     public String getUserId() {
