@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Debug;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -37,6 +39,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -53,27 +57,48 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
     public void UpdatePost(String id,Post post){
 
         Post tempPost;
+        int pos = 0;
         for(int i = 0 ; i < this.postList.size();i++){
             tempPost = postList.get(i);
             String temporalPostid = tempPost.getPostId();
             if(id.equals(temporalPostid)){
                 this.postList.set(i,post);
-                this.notifyItemChanged(i);
-                return;
+                pos = i;
+
+                break;
             }
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+            this.postList.sort(new Comparator<Post>() {
+                @Override
+                public int compare(Post o1, Post o2) {
+
+                    return o1.getTotalTime().compareTo(o2.getTotalTime()) * -1;
+                }
+            });
+        }
+
+
+        this.notifyItemChanged(pos);
+
     }
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public void AddPost(Post post){
 
         this.postList.add(post);
-        QuickSort quickSort = new QuickSort(this.postList);
-        quickSort.sort(0,this.postList.size() - 1);
 
-        Log.d("ches", String.valueOf(this.postList.size()) );
-        for(int i = 0; i < postList.size(); i++){
-            Log.d("ches","Pos: " + i + " "+  this.postList.get(i).getTotalTime());
-        }
-        this.notifyItemInserted(this.postList.size() - 1);
+            this.postList.sort(new Comparator<Post>() {
+                @Override
+                public int compare(Post o1, Post o2) {
+
+                    return o1.getTotalTime().compareTo(o2.getTotalTime()) * -1;
+                }
+            });
+
+
+        this.notifyDataSetChanged();
     }
 
     public void clearItems(){

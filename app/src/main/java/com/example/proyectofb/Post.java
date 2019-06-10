@@ -2,7 +2,7 @@ package com.example.proyectofb;
 
 import android.graphics.Bitmap;
 
-public class Post {
+public class Post implements Comparable<Post> {
 
     private String userName;
     private String lastName;
@@ -129,5 +129,10 @@ public class Post {
 
     public void setPostImage(Bitmap postImage) {
         this.postImage = postImage;
+    }
+
+    @Override
+    public int compareTo(Post o) {
+        return 0;
     }
 }

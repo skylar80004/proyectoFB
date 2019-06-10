@@ -7,9 +7,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -145,6 +147,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         final String userId = user.getUid();
         databaseReference.child("posts").child(userId).orderByKey().addChildEventListener(new ChildEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -344,7 +347,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                
+
             }
 
             @Override
