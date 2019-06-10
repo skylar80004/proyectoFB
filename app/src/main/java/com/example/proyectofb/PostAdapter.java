@@ -3,6 +3,8 @@ package com.example.proyectofb;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Debug;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -28,9 +30,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost> {
 
@@ -122,6 +130,51 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                String key = dataSnapshot.getKey();
+
+                Map<String,Object> postMap = (Map<String,Object>) dataSnapshot.getValue();
+
+                String postId = dataSnapshot.getKey();
+                String userNamePost = (String)postMap.get("name");
+                String lastNamePost = (String)postMap.get("lastName");
+                String type = (String)postMap.get("type");
+                String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
+                String text = (String) postMap.get("text");
+                String likes = (String) postMap.get("likes");
+                String disLikes = (String) postMap.get("dislikes");
+                String imageUrl = (String) postMap.get("imageUrl");
+                String totalTime = (String) postMap.get("totalTime");
+
+                String year = (String) postMap.get("year");
+                String month = (String) postMap.get("month");
+                String day = (String) postMap.get("day");
+                String hour = (String) postMap.get("hour");
+                String minute = (String) postMap.get("minute");
+
+
+                ImageDownloader imageDownloader = new ImageDownloader();
+                Bitmap bitmapProfilePhoto = null;
+                try {
+                    bitmapProfilePhoto = imageDownloader.execute(profilePhotoUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                ImageDownloader imageDownloader2 = new ImageDownloader();
+                Bitmap bitmapPostImage = null;
+                try {
+                    bitmapPostImage = imageDownloader2.execute(imageUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+
+                UpdatePost(key,post);
             }
 
             @Override
@@ -174,6 +227,51 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
+                String key = dataSnapshot.getKey();
+
+                Map<String,Object> postMap = (Map<String,Object>) dataSnapshot.getValue();
+
+                String postId = dataSnapshot.getKey();
+                String userNamePost = (String)postMap.get("name");
+                String lastNamePost = (String)postMap.get("lastName");
+                String type = (String)postMap.get("type");
+                String profilePhotoUrl = (String) postMap.get("profilePhotoUrl"); // Con este link se descarga la foto del usuario, pero como estamos en el perfil , ya se descargo previamente y esta ubicada en el imageView de foto de perfil
+                String text = (String) postMap.get("text");
+                String likes = (String) postMap.get("likes");
+                String disLikes = (String) postMap.get("dislikes");
+                String imageUrl = (String) postMap.get("imageUrl");
+                String totalTime = (String) postMap.get("totalTime");
+
+                String year = (String) postMap.get("year");
+                String month = (String) postMap.get("month");
+                String day = (String) postMap.get("day");
+                String hour = (String) postMap.get("hour");
+                String minute = (String) postMap.get("minute");
+
+
+                ImageDownloader imageDownloader = new ImageDownloader();
+                Bitmap bitmapProfilePhoto = null;
+                try {
+                    bitmapProfilePhoto = imageDownloader.execute(profilePhotoUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                ImageDownloader imageDownloader2 = new ImageDownloader();
+                Bitmap bitmapPostImage = null;
+                try {
+                    bitmapPostImage = imageDownloader2.execute(imageUrl).get();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+
+                UpdatePost(key,post);
             }
 
             @Override
@@ -461,5 +559,31 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         }
 
+
+    }
+
+    public class ImageDownloader extends AsyncTask<String,Void, Bitmap> {
+        @Override
+        protected Bitmap doInBackground(String... urls) {
+
+            try {
+                URL url = new URL(urls[0]);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.connect();
+                InputStream inputStream = connection.getInputStream();
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                return bitmap;
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return null;
+        }
+
     }
 }
+
