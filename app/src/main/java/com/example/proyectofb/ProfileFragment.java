@@ -146,7 +146,8 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         final String userId = user.getUid();
-        databaseReference.child("posts").child(userId).orderByKey().addChildEventListener(new ChildEventListener() {
+
+        databaseReference.child("posts").child(userId).orderByValue().addChildEventListener(new ChildEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
