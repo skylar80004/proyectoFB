@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -37,21 +38,31 @@ import java.util.concurrent.ExecutionException;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    String userID;
+    private String userID;
     PostAdapter postAdapter;
+    Button addOrDeleteFriend;
+    FirebaseUser user;
+    DatabaseReference myRef;
+    private int state;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
+        Intent intent  = getIntent();
+        userID = intent.getStringExtra("userID");
+
+        addOrDeleteFriend = findViewById(R.id.buttonUserProfileSendFriend);
+
+        state = checkFriend();
+        //final int state = changeText(isFriend,addOrDeleteFriend);
 
         postAdapter = new PostAdapter();
         RecyclerView recyclerView = findViewById(R.id.recyclerViewOtherProfilePosts);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.postAdapter);
 
-        Intent intent  = getIntent();
-        userID = intent.getStringExtra("userID");
 
         Toast.makeText(this, "Cargando perfil...",Toast.LENGTH_LONG).show();
 
@@ -62,8 +73,21 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         Button buttonPhotos = findViewById(R.id.buttonProfilePhotos2);
         buttonPhotos.setOnClickListener(this);
 
-        Button buttonSendFriends = findViewById(R.id.buttonUserProfileSendFriend);
-        buttonSendFriends.setOnClickListener(this);
+        //Button buttonSendFriends = findViewById(R.id.buttonUserProfileSendFriend);
+        //buttonSendFriends.setOnClickListener(this);
+
+        addOrDeleteFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(addOrDeleteFriend.getText().equals("Eliminar amigo")){
+                    Log.d("TAG","Estado : Eliminar amigo");
+                    DeleteFriendship();
+                }else {
+                    Log.d("TAG","Estado : Agregar amigo");
+                    FirebaseSendFriendSolicitude();
+                }
+            }
+        });
 
         Button buttonSeeFriends = findViewById(R.id.buttonProfileFriends2);
         buttonSeeFriends.setOnClickListener(this);
@@ -71,6 +95,100 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.GetCurrentUserPosts();
+    }
+
+    private void DeleteFriendship() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String idUser = user.getUid();
+        String idFriend = this.userID;
+        int i = 0;
+
+        while(i<3){
+            if(i == 0){
+                myRef = FirebaseDatabase.getInstance().getReference("friends").child(idUser).child(idFriend);
+                myRef.removeValue();
+                i++;
+            }else if (i == 1){
+                myRef = FirebaseDatabase.getInstance().getReference("friends").child(idFriend).child(idUser);
+                myRef.removeValue();
+                i++;
+            }else{
+                Toast.makeText(getApplicationContext(), "Amigo eliminado", Toast.LENGTH_LONG).show();
+                i++;
+            }
+        }
+
+
+        state = checkFriend();
+    }
+
+    private int checkFriend() {
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        final boolean[] res = {false};
+        final String idUser = user.getUid();
+        final String idFriend = this.userID;
+        final int[] value = new int[1];
+
+        Log.d("TAG","Estado : ID user " + idUser);
+        Log.d("TAG","Estado : ID friend " + idFriend);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final DatabaseReference reference = database.getReference();
+
+        reference.child("friends").child(idFriend).addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String possibleFriend = dataSnapshot.getKey();
+                if (possibleFriend.equals(idUser)) {
+                    Log.d("TAG", "Estado : They are friends = " + possibleFriend + " is equal to " + idUser);
+                    res[0] = true;
+                    Log.d("TAG", "Estado : Valor del bool = " + res[0]);
+                    value[0] = changeText(res[0]);
+                }else{
+                    res[0] = false;
+                    Log.d("TAG", "Estado : Valor del bool = " + res[0]);
+                    value[0] = changeText(res[0]);
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+        });
+
+        return value[0];
+    }
+
+    private int changeText(boolean isFriend) {
+        int state;
+        Log.d("TAG","Estado : bool = " + isFriend);
+        if(isFriend){
+            addOrDeleteFriend.setText(R.string.deleteFriend);
+            state = 0;
+        }else{
+            addOrDeleteFriend.setText(R.string.addFriend);
+            state = 1;
+        }
+        Log.d("TAG","Estado : valor de state = " + state);
+        return state;
     }
 
     @Override
@@ -235,9 +353,6 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 intentProfilePhotos.putExtra("from", "otherProfile");
                 intentProfilePhotos.putExtra("userId",userID);
                 startActivity(intentProfilePhotos);
-                break;
-            case R.id.buttonUserProfileSendFriend:
-                FirebaseSendFriendSolicitude();
                 break;
 
         }
