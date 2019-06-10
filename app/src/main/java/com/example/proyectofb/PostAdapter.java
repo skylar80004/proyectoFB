@@ -3,10 +3,12 @@ package com.example.proyectofb;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.Debug;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -55,8 +59,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
         this.postList.add(post);
         QuickSort quickSort = new QuickSort(this.postList);
-        quickSort.sort(0,this.postList.size()-1);
-        this.notifyDataSetChanged();
+        quickSort.sort(0,this.postList.size() - 1);
+
+        Log.d("ches", String.valueOf(this.postList.size()) );
+        for(int i = 0; i < postList.size(); i++){
+            Log.d("ches","Pos: " + i + " "+  this.postList.get(i).getTotalTime());
+        }
+        this.notifyItemInserted(this.postList.size() - 1);
     }
 
     public void OrderChronogically(){
@@ -246,7 +255,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 }
                 else{
 
-
                     if(currentHour > postHour){
 
                         int hoursAgo = Math.abs(currentHour - postHour);
@@ -266,7 +274,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                                 return "Hace 1 minuto";
                             }
                             else{
-                                return "Hace " + String.valueOf(minutesAgo) + "minutos";
+                                return "Hace " + String.valueOf(minutesAgo) + " minutos";
                             }
                         }
                         else{
@@ -345,6 +353,9 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         }
 
         final String id = this.postList.get(i).getUserId();
+        final String postId = this.postList.get(i).getPostId();
+        final int pos = i;
+
         viewHolderUserPost.textViewPostUserName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -368,6 +379,43 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             }
         });
 
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        final String currentUser = user.getUid();
+
+        if(!currentUser.equals(id)){
+            viewHolderUserPost.buttonDeletePost.setVisibility(View.INVISIBLE);
+
+        }
+        else{
+            viewHolderUserPost.buttonDeletePost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    FirebaseDeletePost(postId,currentUser,pos,v);
+                }
+            });
+
+        }
+    }
+
+    public void FirebaseDeletePost(final String postId, String userId, final int i, final View view){
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = firebaseDatabase.getReference();
+
+        databaseReference.child("posts").child(userId).child(postId).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful()){
+
+                    postList.remove(i);
+                    notifyItemRemoved(i);
+                    Toast.makeText(view.getContext(), " Se eliminó la publicación",Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -386,6 +434,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         ImageButton imageButtonLike;
         ImageButton imageButtonDislike;
         Button buttonComments;
+        Button buttonDeletePost;
 
         ImageView imageViewPostImage;
         ImageView imageViewPostUserPhoto;
@@ -406,14 +455,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
             imageViewPostUserPhoto = itemView.findViewById(R.id.imageViewPostUserPhoto);
 
             textViewPostHours = itemView.findViewById(R.id.textViewPostHours);
-
-
+            buttonDeletePost = itemView.findViewById(R.id.buttonDeletePost);
 
 
 
         }
-
-
 
     }
 }

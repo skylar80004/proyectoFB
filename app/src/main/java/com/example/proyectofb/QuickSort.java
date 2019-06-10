@@ -32,7 +32,7 @@ public class QuickSort {
             String jString = this.postList.get(j).getTotalTime();
             int jValue = Integer.parseInt(jString);
 
-            if ( jValue <= pivot)
+            if ( jValue > pivot)
             {
                 i++;
 
@@ -61,7 +61,7 @@ public class QuickSort {
       high  --> Ending index */
     void sort( int low, int high)
     {
-        if (low < high)
+        if (low > high)
         {
             /* pi is partitioning index, arr[pi] is
               now at right place */
