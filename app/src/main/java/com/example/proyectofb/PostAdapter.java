@@ -76,15 +76,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         this.notifyItemInserted(this.postList.size() - 1);
     }
 
-    public void OrderChronogically(){
-
-    }
-
     public void clearItems(){
         this.postList.clear();
         this.notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -390,6 +385,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
 
     }
 
+
+
+    @Override
+    public int getItemCount() {
+        return this.postList.size();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPost viewHolderUserPost, int i) {
 
@@ -497,6 +499,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         }
     }
 
+
+
     public void FirebaseDeletePost(final String postId, String userId, final int i, final View view){
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
@@ -516,10 +520,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
         });
     }
 
-    @Override
-    public int getItemCount() {
-        return this.postList.size();
-    }
 
     public class ViewHolderPost extends RecyclerView.ViewHolder  {
 
