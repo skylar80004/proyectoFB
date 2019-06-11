@@ -1,7 +1,9 @@
 package com.example.proyectofb;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +22,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInClient mGoogleSignInClient;
     private int SingUpCode = 4;
     int RC_SIGN_IN = 100;
+    private int signUpCode = 5;
+    boolean googleUserExists = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
+                .requestProfile()
+                .requestId()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -87,24 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void FirebaseSingUp(String email, String password){
-
-        this.mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-
-                if(task.isSuccessful()){
-
-                    Toast.makeText(getApplicationContext(), "Nuevo usuario registrado con exito.",Toast.LENGTH_LONG).show();
-
-                }
-                else{
-                    Toast.makeText(getApplicationContext(), "No fue posible registrar el nuevo usuario.",Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
-    }
 
     public void FirebaseResetPassword(String email){
 
@@ -157,7 +150,18 @@ public class MainActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
+
+        if(requestCode == this.signUpCode){
+            if(resultCode == Activity.RESULT_OK){
+
+                Intent intent = new Intent();
+                setResult(Activity.RESULT_OK,intent);
+                this.googleUserExists = true;
+                this.mGoogleSignInClient.signOut();
+            }
+        }
     }
+
 
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
@@ -165,9 +169,13 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
+
+
+            String email = account.getEmail();
+            this.FirebaseSingUp(email,"123456");
+
+
             Toast.makeText(getApplicationContext(), "Login Exitoso" ,Toast.LENGTH_LONG).show();
-            Intent intent  = new Intent(getApplicationContext(),TabHomeActivity.class);
-            startActivity(intent);
 
 
         } catch (ApiException e) {
@@ -177,6 +185,31 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+
+    public void FirebaseSingUp(final String email, String password){
+
+        this.mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+
+                if(task.isSuccessful()){
+
+                    Toast.makeText(getApplicationContext(), "Nuevo usuario registrado con exito.",Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), ProfileSettingsActivity.class);
+                    intent.putExtra("origin","signUp");
+                    startActivityForResult(intent,signUpCode);
+                }
+                else{
+                    googleUserExists = true;
+                    Toast.makeText(getApplicationContext(), "No fue posible registrar el nuevo usuario.",Toast.LENGTH_LONG).show();
+                    FirebaseSingIn(email, "123456");
+                }
+
+            }
+        });
+    }
+
+
 
 
 
