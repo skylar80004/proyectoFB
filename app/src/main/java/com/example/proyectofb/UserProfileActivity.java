@@ -404,6 +404,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
+                String fileName = (String) postMap.get("fileName");
 
                 String year = (String) postMap.get("year");
                 String month = (String) postMap.get("month");
@@ -433,7 +434,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
 
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute,fileName);
                 postAdapter.AddPost(post);
 
             }
@@ -455,6 +456,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
+                String fileName = (String) postMap.get("fileName");
 
                 String year = (String) postMap.get("year");
                 String month = (String) postMap.get("month");
@@ -483,7 +485,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                     e.printStackTrace();
                 }
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute,fileName);
 
                 postAdapter.UpdatePost(key,post);
             }

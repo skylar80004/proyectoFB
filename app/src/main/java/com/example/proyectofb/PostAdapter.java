@@ -31,6 +31,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -164,12 +166,14 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
+                String fileName = (String) postMap.get("fileName");
 
                 String year = (String) postMap.get("year");
                 String month = (String) postMap.get("month");
                 String day = (String) postMap.get("day");
                 String hour = (String) postMap.get("hour");
                 String minute = (String) postMap.get("minute");
+
 
 
                 ImageDownloader imageDownloader = new ImageDownloader();
@@ -192,7 +196,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                     e.printStackTrace();
                 }
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute,fileName);
 
                 UpdatePost(key,post);
             }
@@ -261,6 +265,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 String disLikes = (String) postMap.get("dislikes");
                 String imageUrl = (String) postMap.get("imageUrl");
                 String totalTime = (String) postMap.get("totalTime");
+                String fileName = (String) postMap.get("fileName");
 
                 String year = (String) postMap.get("year");
                 String month = (String) postMap.get("month");
@@ -289,7 +294,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                     e.printStackTrace();
                 }
                 Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute);
+                        likes,disLikes,userId,postId,totalTime,year,month,day,hour,minute,fileName);
 
                 UpdatePost(key,post);
             }
@@ -543,6 +548,21 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolderPost
                 }
             }
         });
+
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+        StorageReference storageReference = firebaseStorage.getReference();
+
+        String fileName = this.postList.get(i).getFileName();
+        storageReference.child(userId).child(fileName).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+
+                }
+            }
+        });
+
+        databaseReference.child(userId).child(fileName).removeValue();
     }
 
 

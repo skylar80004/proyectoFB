@@ -15,6 +15,7 @@ public class Post implements Comparable<Post> {
     private String userId;
     private String postId;
     private String totalTime;
+    private String fileName;
 
     String year;
     String month;
@@ -25,7 +26,7 @@ public class Post implements Comparable<Post> {
 
     public Post(String userName, String lastName, String type, Bitmap userPhoto, String postText, Bitmap postImage,
                 String likes, String dislikes,String userId, String postId,String totalTime,
-                String year, String month,String day,String hour, String minute) {
+                String year, String month,String day,String hour, String minute,String fileName) {
 
         this.userName = userName;
         this.lastName = lastName;
@@ -43,6 +44,11 @@ public class Post implements Comparable<Post> {
         this.day = day;
         this.hour  = hour;
         this.minute = minute;
+        this.fileName = fileName;
+    }
+
+    public String getFileName() {
+        return fileName;
     }
 
     public String getYear() {

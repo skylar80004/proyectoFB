@@ -122,6 +122,7 @@ public class TimeLiFragment extends Fragment {
                         String disLikes = (String) postMap.get("dislikes");
                         String imageUrl = (String) postMap.get("imageUrl");
                         String totalTime = (String) postMap.get("totalTime");
+                        String fileName = (String) postMap.get("fileName");
 
                         String year = (String) postMap.get("year");
                         String month = (String) postMap.get("month");
@@ -152,7 +153,7 @@ public class TimeLiFragment extends Fragment {
                         }
 
                         Post post = new Post(userNamePost,lastNamePost,type,bitmapProfilePhoto,text,bitmapPostImage,
-                                likes,disLikes,friendId,postId,totalTime,year,month,day,hour,minute);
+                                likes,disLikes,friendId,postId,totalTime,year,month,day,hour,minute,fileName);
 
                         postAdapter.AddPost(post);
                     }

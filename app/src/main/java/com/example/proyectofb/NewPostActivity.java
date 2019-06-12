@@ -88,7 +88,7 @@ public class NewPostActivity extends AppCompatActivity {
                                           String text,String imageUrl,String profilePhotoUrl,
                                           String userId, String postId,String totalTime,
                                           String year, String month, String day, String hour,
-                                          String minute){
+                                          String minute,String fileName){
         Map<String,Object> postMap = new HashMap<>();
         postMap.put("name",name);
         postMap.put("lastName",lastName);
@@ -100,6 +100,7 @@ public class NewPostActivity extends AppCompatActivity {
         postMap.put("profilePhotoUrl",profilePhotoUrl );
         postMap.put("userId",userId);
         postMap.put("postId", postId);
+        postMap.put("fileName",fileName);
         postMap.put("totalTime",totalTime);
 
         postMap.put("year", year);
@@ -157,7 +158,7 @@ public class NewPostActivity extends AppCompatActivity {
 
 
                     Map<String, Object> postMap = getPostMap(name, lastName,"text",text,"nullvalue",profilePhotoUrl,
-                            userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString);
+                            userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString,"nullvalue");
 
                     databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
@@ -281,7 +282,7 @@ public class NewPostActivity extends AppCompatActivity {
                                         String minuteString = String.valueOf(minute);
 
                                         Map<String, Object> postMap = getPostMap(name, lastName,"image",text,photoUrl,
-                                                profilePhotoUrl,userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString);
+                                                profilePhotoUrl,userId,newPostId,totalTimeString,yearString,monthString,dayString,hourString,minuteString,fileName);
 
                                         databaseReference.child("posts").child(userId).child(newPostId).setValue(postMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
