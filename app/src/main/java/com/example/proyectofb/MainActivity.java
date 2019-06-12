@@ -169,12 +169,8 @@ public class MainActivity extends AppCompatActivity {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
             // Signed in successfully, show authenticated UI.
-
-
             String email = account.getEmail();
             this.FirebaseSingUp(email,"123456");
-
-
             Toast.makeText(getApplicationContext(), "Login Exitoso" ,Toast.LENGTH_LONG).show();
 
 

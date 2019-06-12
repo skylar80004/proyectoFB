@@ -112,8 +112,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        Button buttonFriends = view.findViewById(R.id.buttonProfileFriends);
-        buttonFriends.setOnClickListener(this);
+
 
         Button buttonProfileOptions = view.findViewById(R.id.buttonProfileOptions);
         buttonProfileOptions.setOnClickListener(this);
@@ -446,10 +445,7 @@ public class ProfileFragment extends Fragment implements View.OnClickListener {
                 Intent intentOptions = new Intent(getActivity(), OptionsActivity.class);
                 startActivityForResult(intentOptions, this.profileOptionsSettingsCode);
                 break;
-            case R.id.buttonProfileFriends:
-                Intent intentFriends = new Intent(getActivity(), FriendsListActivity.class);
-                startActivity(intentFriends);
-                break;
+
 
         }
 
