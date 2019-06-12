@@ -378,6 +378,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         });
+        addOrDeleteFriend.setText("Solicitud enviada");
 
     }
 
